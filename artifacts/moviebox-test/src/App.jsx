@@ -14,6 +14,7 @@ const ResetPasswordPage = lazy(() => import('./pages/Home/ResetPasswordPage'));
 const EmailVerificationPage = lazy(() => import('./pages/Home/EmailVerificationPage'));
 const PersonPage = lazy(() => import('./pages/Home/Person/PersonPage'));
 const AuthActionPage = lazy(() => import('./pages/Home/AuthActionPage'));
+const WatchPage = lazy(() => import('./pages/Home/WatchPage'));
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
 
@@ -52,6 +53,8 @@ function AppRoutes() {
           <Route path="/auth-action" element={<AuthActionPage />} />
           <Route path="/movie/:slug" element={<MovieDetails />} />
           <Route path="/tv/:slug" element={<TvDetails />} />
+          <Route path="/watch/movie/:slug" element={<WatchPage type="movie" />} />
+          <Route path="/watch/tv/:slug" element={<WatchPage type="tv" />} />
         </Route>
       </Routes>
     </Suspense>

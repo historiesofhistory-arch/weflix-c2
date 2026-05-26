@@ -1,5 +1,4 @@
 import React, { useEffect, useLayoutEffect, useState, useCallback, memo } from "react";
-import { flushSync } from "react-dom";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { fetchMbDetail, mbCoverUrl } from "../Fetcher";
@@ -10,7 +9,6 @@ import {
   FaStar,
   FaArrowLeft,
   FaInfoCircle,
-  FaBookmark,
   FaPlay,
   FaShareAlt,
   FaThumbsUp,
@@ -18,7 +16,7 @@ import {
 import { BiCalendar, BiTime } from "react-icons/bi";
 import DetailPageSkeleton from "../reused/DetailPageSkeleton";
 import CastRow from "../reused/CastRow";
-import SmartPlayer, { enterFullscreenLandscape, preResolveStream } from "../SmartPlayer";
+import { preResolveStream } from "../SmartPlayer";
 import SEO from "../SEO";
 import AuthModal from "../../../components/AuthModal";
 import { useWatchlist } from "../../../context/WatchlistContext";
@@ -36,7 +34,6 @@ const MovieDetails = ({ movieId: movieIdProp }) => {
   const [error, setError] = useState(null);
   const [retrying, setRetrying] = useState(false);
   const [showOverview, setShowOverview] = useState(false);
-  const [showPlayer, setShowPlayer] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('details');
 
@@ -49,7 +46,6 @@ const MovieDetails = ({ movieId: movieIdProp }) => {
     setError(null);
     setMovie(null);
     setShowOverview(false);
-    setShowPlayer(false);
     setIsAuthModalOpen(false);
     setActiveTab('details');
   }, [movieId]);
@@ -90,6 +86,10 @@ const MovieDetails = ({ movieId: movieIdProp }) => {
     if (!movie?.subjectId) return;
     preResolveStream(movie.subjectId, "movie");
   }, [movie]);
+
+  const handleWatchNow = () => {
+    navigate(`/watch/movie/${slug || movieId}`);
+  };
 
   useEffect(() => {
     if (!movie) return;
@@ -237,14 +237,11 @@ const MovieDetails = ({ movieId: movieIdProp }) => {
 
             <div className="flex flex-wrap items-center gap-3 mb-2">
               <button
-                onClick={() => {
-                  flushSync(() => { setShowPlayer(true); });
-                  enterFullscreenLandscape();
-                }}
-                className="flex items-center gap-2.5 bg-white hover:bg-gray-200 text-black font-bold px-6 md:px-8 py-2.5 md:py-3 rounded-md transition-all active:scale-[0.97] text-sm md:text-base"
+                onClick={handleWatchNow}
+                className="flex items-center gap-2.5 bg-red-600 hover:bg-red-500 text-white font-bold px-6 md:px-8 py-2.5 md:py-3 rounded-md transition-all active:scale-[0.97] text-sm md:text-base shadow-lg shadow-red-600/30"
               >
                 <FaPlay className="text-xs md:text-sm" />
-                Play
+                Watch Now
               </button>
 
               <button
@@ -377,16 +374,6 @@ const MovieDetails = ({ movieId: movieIdProp }) => {
           <span>&copy; {new Date().getFullYear()} PopCorn TV</span>
         </div>
       </footer>
-
-      {showPlayer && (
-        <SmartPlayer
-          subjectId={movie.subjectId}
-          type="movie"
-          title={movie.title}
-          year={year}
-          onClose={() => setShowPlayer(false)}
-        />
-      )}
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>
