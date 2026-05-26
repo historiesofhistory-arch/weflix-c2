@@ -28,6 +28,7 @@ import {
   fetchMbSubtitles,
   mbCoverUrl,
 } from "./Fetcher";
+import { API_BASE } from "../../lib/api";
 import { getIdFromDetailSlug, getTitleFromDetailSlug } from "./urlUtils";
 import { saveToContinueWatching } from "../../utils/continueWatching";
 import SEO from "./SEO";
@@ -524,19 +525,23 @@ const WatchPage = ({ type }) => {
 
   const videoSources = useMemo(() => {
     if (!streamData?.streams?.length) return [];
-    if (selectedQuality) {
-      const match = streamData.streams.find((s) =>
-        getQualityLabel(s) === selectedQuality
-      );
-      const src = match || streamData.streams[0];
-      return [{ src: src.url, type: "video/mp4" }];
-    }
+
+    const proxied = (rawUrl) =>
+      `${API_BASE}/stream/proxy?url=${encodeURIComponent(rawUrl)}`;
+
     const sorted = [...streamData.streams].sort((a, b) => {
       const qa = parseInt(a.quality || a.resolutions || a.resolution || 720, 10);
       const qb = parseInt(b.quality || b.resolutions || b.resolution || 720, 10);
       return qb - qa;
     });
-    return [{ src: sorted[0].url, type: "video/mp4" }];
+
+    if (selectedQuality) {
+      const match = sorted.find((s) => getQualityLabel(s) === selectedQuality);
+      const src = match || sorted[0];
+      return [{ src: proxied(src.url), type: "video/mp4" }];
+    }
+
+    return [{ src: proxied(sorted[0].url), type: "video/mp4" }];
   }, [streamData, selectedQuality]);
 
   const handleEpisodeSelect = (epNum) => {
