@@ -4,9 +4,8 @@ import React, {
   useState,
   useCallback,
   memo,
-  useRef,
 } from "react";
-import { useParams, useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { fetchMbDetail, fetchMbSeasons, mbCoverUrl } from "../Fetcher";
 import { getIdFromDetailSlug, getTitleFromDetailSlug } from "../urlUtils";
@@ -15,15 +14,12 @@ import {
   FaRedo,
   FaStar,
   FaArrowLeft,
-  FaStepBackward,
-  FaStepForward,
   FaInfoCircle,
   FaPlay,
   FaShareAlt,
-  FaChevronDown,
   FaThumbsUp,
 } from "react-icons/fa";
-import { BiCalendar, BiTv, BiSearch } from "react-icons/bi";
+import { BiCalendar } from "react-icons/bi";
 import DetailPageSkeleton from "../reused/DetailPageSkeleton";
 import CastRow from "../reused/CastRow";
 import { preResolveStream } from "../SmartPlayer";
@@ -31,19 +27,10 @@ import SEO from "../SEO";
 import AuthModal from "../../../components/AuthModal";
 import { useWatchlist } from "../../../context/WatchlistContext";
 import { useProgressWhile } from "../../../context/ProgressContext";
-// View-transition wiring (Task #115) was reverted — see ContentCard for context.
-
-const getValidParamNumber = (params, key) => {
-  const raw = params.get(key);
-  if (!raw) return null;
-  const value = Number(raw);
-  return Number.isInteger(value) && value > 0 ? value : null;
-};
 
 const TvDetails = ({ tvId: tvIdProp }) => {
   const { slug } = useParams();
   const location = useLocation();
-  const [, setSearchParams] = useSearchParams();
   const tvId = tvIdProp ?? getIdFromDetailSlug(slug);
   const titleHint = slug ? getTitleFromDetailSlug(slug) : '';
   const navigate = useNavigate();
@@ -52,38 +39,20 @@ const TvDetails = ({ tvId: tvIdProp }) => {
   const [error, setError] = useState(null);
   const [retrying, setRetrying] = useState(false);
   const [allSeasons, setAllSeasons] = useState([]);
-  const [viewingSeason, setViewingSeason] = useState(null);
-  const [playingSeason, setPlayingSeason] = useState(null);
-  const [playingEpisode, setPlayingEpisode] = useState(null);
   const [showOverview, setShowOverview] = useState(false);
-  const [episodeQuery, setEpisodeQuery] = useState('');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState(null);
-  const [seasonDropdownOpen, setSeasonDropdownOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('details');
 
   useProgressWhile(loading);
-  const [seasonFading, setSeasonFading] = useState(false);
   const { user, watchlistIds, toggleWatchlist: ctxToggleWatchlist } = useWatchlist();
   const inWatchlist = tv?.subjectId ? watchlistIds.has(String(tv.subjectId)) : false;
 
-  const seasonDropdownRef = useRef(null);
-  const seasonFadeTimerRef = useRef(null);
-
-  useEffect(() => {
-    return () => {
-      if (seasonFadeTimerRef.current) clearTimeout(seasonFadeTimerRef.current);
-    };
-  }, []);
-
   const handleBack = () => {
-    const go = () => {
-      if (location.state?.from) {
-        navigate(location.state.from);
-        return;
-      }
-      navigate(-1);
-    };
-    go();
+    if (location.state?.from) {
+      navigate(location.state.from);
+      return;
+    }
+    navigate(-1);
   };
 
   useLayoutEffect(() => {
@@ -91,14 +60,9 @@ const TvDetails = ({ tvId: tvIdProp }) => {
     setError(null);
     setTv(null);
     setAllSeasons([]);
-    setViewingSeason(null);
-    setPlayingSeason(null);
-    setPlayingEpisode(null);
     setShowOverview(false);
-    setEpisodeQuery('');
     setIsAuthModalOpen(false);
-    setActiveTab(null);
-    setSeasonDropdownOpen(false);
+    setActiveTab('details');
   }, [tvId]);
 
   const load = useCallback(async () => {
@@ -114,38 +78,14 @@ const TvDetails = ({ tvId: tvIdProp }) => {
 
       const mbSeasons = (seasonsData?.seasons || []).map((s) => {
         const epCount = s.maxEp || s.episodeCount || s.episodes?.length || 0;
-        const epList = s.episodes?.length > 0
-          ? s.episodes.map((e, i) => ({
-              episode_number: e.episodeNumber ?? e.episode_number ?? (i + 1),
-              name: e.name || e.title || `Episode ${e.episodeNumber ?? e.episode_number ?? (i + 1)}`,
-            }))
-          : Array.from({ length: epCount }, (_, i) => ({
-              episode_number: i + 1,
-              name: `Episode ${i + 1}`,
-            }));
         return {
           season_number: s.se != null ? s.se : s.seasonNumber,
-          episode_count: epList.length || epCount,
-          episodes: epList,
+          episode_count: epCount,
         };
       }).filter(s => s.season_number != null && s.episode_count > 0)
         .sort((a, b) => a.season_number - b.season_number);
 
       setAllSeasons(mbSeasons);
-      setActiveTab(mbSeasons.length > 0 ? 'episodes' : 'details');
-
-      if (mbSeasons.length > 0) {
-        const urlParams = new URLSearchParams(window.location.search);
-        let urlSeason = getValidParamNumber(urlParams, 'season');
-        let urlEpisode = getValidParamNumber(urlParams, 'episode');
-
-        const selectedSeason = (urlSeason && mbSeasons.find(s => s.season_number === urlSeason)) ?? mbSeasons[0];
-        const selectedEpisode = urlEpisode && urlEpisode <= selectedSeason.episode_count ? urlEpisode : 1;
-
-        setViewingSeason(selectedSeason.season_number);
-        setPlayingSeason(selectedSeason.season_number);
-        setPlayingEpisode(selectedEpisode);
-      }
     } catch {
       setError("Failed to load TV show details. Please try again.");
     } finally {
@@ -161,47 +101,21 @@ const TvDetails = ({ tvId: tvIdProp }) => {
   }, [tvId]);
 
   useEffect(() => {
-    if (!allSeasons.length || playingSeason === null || playingEpisode === null) return;
-    if (loading) return;
-    const params = new URLSearchParams(location.search);
-    const currentSeason = getValidParamNumber(params, 'season');
-    const currentEpisode = getValidParamNumber(params, 'episode');
-    if (currentSeason === playingSeason && currentEpisode === playingEpisode) return;
-    const nextParams = new URLSearchParams(location.search);
-    nextParams.set('season', String(playingSeason));
-    nextParams.set('episode', String(playingEpisode));
-    setSearchParams(nextParams, { replace: true });
-  }, [allSeasons.length, playingSeason, playingEpisode, location.search, setSearchParams, loading]);
+    if (!tv?.subjectId) return;
+    preResolveStream(tv.subjectId, "tv", 1, 1);
+  }, [tv]);
 
   useEffect(() => {
-    if (!tv?.subjectId || playingSeason === null || playingEpisode === null) return;
-    preResolveStream(tv.subjectId, "tv", playingSeason, playingEpisode);
-  }, [tv, playingSeason, playingEpisode]);
-
-  useEffect(() => {
-    if (!tv || playingSeason === null || playingEpisode === null) return;
+    if (!tv) return;
     saveToContinueWatching(user?.uid, {
       id: tv.subjectId,
       mediaType: 'tv',
-      title: `${tv.title} - S${playingSeason}E${playingEpisode}`,
+      title: tv.title,
       poster_path: tv.cover?.url || '',
       vote_average: parseFloat(tv.imdbRatingValue) || 0,
       release_date: tv.releaseDate,
-      season: playingSeason,
-      episode: playingEpisode,
     });
-  }, [tv, playingSeason, playingEpisode, user]);
-
-  useEffect(() => {
-    if (!seasonDropdownOpen) return;
-    const handleClickOutside = (e) => {
-      if (seasonDropdownRef.current && !seasonDropdownRef.current.contains(e.target)) {
-        setSeasonDropdownOpen(false);
-      }
-    };
-    document.addEventListener('pointerdown', handleClickOutside);
-    return () => document.removeEventListener('pointerdown', handleClickOutside);
-  }, [seasonDropdownOpen]);
+  }, [tv, user]);
 
   const toggleWatchlist = () => {
     if (!tv?.subjectId) return;
@@ -218,36 +132,9 @@ const TvDetails = ({ tvId: tvIdProp }) => {
     );
   };
 
-  const currentSeasonData = allSeasons.find(s => s.season_number === viewingSeason);
-  const sortedEpisodes = currentSeasonData?.episodes || [];
-  const filteredEpisodes = sortedEpisodes.filter((ep) => {
-    const q = episodeQuery.trim().toLowerCase();
-    if (!q) return true;
-    const title = (ep.name || '').toLowerCase();
-    return title.includes(q) || String(ep.episode_number).includes(q);
-  });
-
-  const activeEpisodeIndex = sortedEpisodes.findIndex((ep) =>
-    ep.episode_number === playingEpisode && currentSeasonData?.season_number === playingSeason
-  );
-
-  const jumpEpisode = (direction) => {
-    if (!sortedEpisodes.length || activeEpisodeIndex < 0) return;
-    const nextIndex = activeEpisodeIndex + direction;
-    if (nextIndex < 0 || nextIndex >= sortedEpisodes.length) return;
-    const nextEp = sortedEpisodes[nextIndex];
-    setPlayingSeason(currentSeasonData.season_number);
-    setPlayingEpisode(nextEp.episode_number);
-  };
-
-  const playEpisode = (seasonNum, epNum) => {
-    navigate(`/watch/tv/${slug || tvId}?season=${seasonNum}&episode=${epNum}`);
-  };
-
   const handleWatchNow = () => {
-    navigate(
-      `/watch/tv/${slug || tvId}?season=${playingSeason ?? 1}&episode=${playingEpisode ?? 1}`
-    );
+    const firstSeason = allSeasons[0]?.season_number ?? 1;
+    navigate(`/watch/tv/${slug || tvId}?season=${firstSeason}&episode=1`);
   };
 
   const handleShare = async () => {
@@ -307,9 +194,7 @@ const TvDetails = ({ tvId: tvIdProp }) => {
               src={coverUrl}
               alt=""
               className="w-full h-full object-cover object-top"
-              style={{
-                filter: "brightness(0.45) contrast(1.1) saturate(1.1)",
-              }}
+              style={{ filter: "brightness(0.45) contrast(1.1) saturate(1.1)" }}
             />
           ) : (
             <div className="w-full h-full bg-[#141414]" />
@@ -340,7 +225,11 @@ const TvDetails = ({ tvId: tvIdProp }) => {
                   <FaStar className="text-xs" /> {rating}
                 </span>
               )}
-              {year && <span>{year}</span>}
+              {year && (
+                <span className="flex items-center gap-1">
+                  <BiCalendar className="text-sm" /> {year}
+                </span>
+              )}
               {allSeasons.length > 0 && (
                 <span>{allSeasons.length} Season{allSeasons.length !== 1 ? 's' : ''}</span>
               )}
@@ -382,7 +271,7 @@ const TvDetails = ({ tvId: tvIdProp }) => {
               </button>
 
               <button
-                className="flex flex-col items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-gray-400 hover:border-white bg-black/40 hover:bg-black/60 text-white transition-all"
+                className="flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-gray-400 hover:border-white bg-black/40 hover:bg-black/60 text-white transition-all"
                 title="Rate"
               >
                 <FaThumbsUp className="text-sm" />
@@ -402,15 +291,6 @@ const TvDetails = ({ tvId: tvIdProp }) => {
 
       <div className="px-4 md:px-8 lg:px-12 max-w-5xl">
         <div className="flex gap-6 border-b border-white/10 mb-5">
-          {allSeasons.length > 0 && (
-            <button
-              onClick={() => setActiveTab('episodes')}
-              className={`py-3 text-sm font-semibold transition-colors relative ${activeTab === 'episodes' ? 'text-white' : 'text-gray-400 hover:text-gray-200'}`}
-            >
-              EPISODES
-              {activeTab === 'episodes' && <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-red-600 rounded-full" />}
-            </button>
-          )}
           <button
             onClick={() => setActiveTab('details')}
             className={`py-3 text-sm font-semibold transition-colors relative ${activeTab === 'details' ? 'text-white' : 'text-gray-400 hover:text-gray-200'}`}
@@ -435,152 +315,6 @@ const TvDetails = ({ tvId: tvIdProp }) => {
             {activeTab === 'more' && <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-red-600 rounded-full" />}
           </button>
         </div>
-
-        {activeTab === 'episodes' && allSeasons.length > 0 && (
-          <div className="pb-12">
-            <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
-              {allSeasons.length > 1 ? (
-                <div ref={seasonDropdownRef} className="relative">
-                  <button
-                    onClick={() => setSeasonDropdownOpen(v => !v)}
-                    className="flex items-center gap-2 bg-[#242424] hover:bg-[#333] text-white text-sm font-semibold px-4 py-2.5 rounded-md border border-white/10 transition-all min-w-[160px] justify-between"
-                  >
-                    <span>{tv.title} — Season {viewingSeason}</span>
-                    <FaChevronDown className={`text-xs transition-transform ${seasonDropdownOpen ? 'rotate-180' : ''}`} />
-                  </button>
-                  {seasonDropdownOpen && (
-                    <div className="absolute top-full left-0 mt-1 min-w-[200px] bg-[#242424] border border-white/10 rounded-md shadow-2xl z-30 overflow-hidden max-h-64 overflow-y-auto">
-                      {allSeasons.map(season => (
-                        <button
-                          key={season.season_number}
-                          onClick={() => {
-                            if (viewingSeason === season.season_number) {
-                              setSeasonDropdownOpen(false);
-                              return;
-                            }
-                            if (seasonFadeTimerRef.current) clearTimeout(seasonFadeTimerRef.current);
-                            setSeasonFading(true);
-                            setSeasonDropdownOpen(false);
-                            seasonFadeTimerRef.current = setTimeout(() => {
-                              setViewingSeason(season.season_number);
-                              setPlayingSeason(season.season_number);
-                              setPlayingEpisode(1);
-                              setEpisodeQuery('');
-                              seasonFadeTimerRef.current = setTimeout(() => setSeasonFading(false), 30);
-                            }, 200);
-                          }}
-                          className={`w-full text-left px-4 py-3 text-sm transition-colors ${viewingSeason === season.season_number ? 'bg-white/10 text-white font-semibold' : 'text-gray-300 hover:bg-white/5'}`}
-                        >
-                          Season {season.season_number}
-                          <span className="text-gray-500 ml-2 text-xs">({season.episode_count} ep{season.episode_count !== 1 ? 's' : ''})</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <h3 className="text-white font-semibold text-base">
-                  Season {viewingSeason}
-                  <span className="text-gray-500 text-sm font-normal ml-2">({currentSeasonData?.episode_count ?? 0} episodes)</span>
-                </h3>
-              )}
-
-              <div className="relative">
-                <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
-                <input
-                  type="text"
-                  value={episodeQuery}
-                  onChange={e => setEpisodeQuery(e.target.value)}
-                  placeholder="Search episodes…"
-                  className="w-full sm:w-56 pl-9 pr-4 py-2 rounded-md bg-[#242424] border border-white/10 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-all"
-                />
-              </div>
-            </div>
-
-            <div className={`flex flex-col divide-y divide-white/5 transition-all duration-200 ${seasonFading ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'}`}>
-              {filteredEpisodes.length > 0 ? filteredEpisodes.map(ep => {
-                const isPlaying = playingSeason === viewingSeason && playingEpisode === ep.episode_number;
-                return (
-                  <button
-                    key={ep.episode_number}
-                    onClick={() => playEpisode(currentSeasonData.season_number, ep.episode_number)}
-                    className={`flex items-center gap-4 py-4 hover:bg-white/5 transition-colors text-left w-full group ${isPlaying ? 'bg-white/[0.03]' : ''}`}
-                  >
-                    <span className={`text-lg font-medium w-8 text-center shrink-0 ${isPlaying ? 'text-white' : 'text-gray-500'}`}>
-                      {ep.episode_number}
-                    </span>
-
-                    <div className="relative shrink-0 w-28 sm:w-36 aspect-video rounded-md overflow-hidden bg-[#1a1a1a]">
-                      {coverUrl ? (
-                        <img
-                          src={coverUrl}
-                          alt=""
-                          className="w-full h-full object-cover opacity-60"
-                          draggable={false}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-700">
-                          <BiTv className="text-2xl" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <div className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center">
-                          <FaPlay className="text-white text-xs ml-0.5" />
-                        </div>
-                      </div>
-                      {isPlaying && (
-                        <div className="absolute top-1.5 left-1.5 flex items-center gap-1 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
-                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                          NOW
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex-1 min-w-0 pt-0.5">
-                      <div className="flex items-baseline justify-between gap-2 mb-0.5">
-                        <p className={`font-medium text-sm leading-snug ${isPlaying ? 'text-white' : 'text-gray-200 group-hover:text-white'} truncate`}>
-                          {ep.name || `Episode ${ep.episode_number}`}
-                        </p>
-                        {ep.runtime && (
-                          <span className="text-xs text-gray-500 shrink-0">{ep.runtime}m</span>
-                        )}
-                      </div>
-                      {ep.overview && (
-                        <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">{ep.overview}</p>
-                      )}
-                    </div>
-                  </button>
-                );
-              }) : (
-                <div className="py-10 text-center text-gray-500 text-sm">
-                  {episodeQuery.trim() ? 'No episodes found.' : 'No episodes available for this season.'}
-                </div>
-              )}
-            </div>
-
-            {playingSeason !== null && playingEpisode !== null && sortedEpisodes.length > 1 && (
-              <div className="flex items-center justify-between pt-6 gap-3">
-                <button
-                  onClick={() => jumpEpisode(-1)}
-                  disabled={activeEpisodeIndex <= 0}
-                  className="flex items-center gap-2 px-4 py-2 rounded-md bg-[#242424] border border-white/10 text-gray-300 hover:text-white hover:bg-[#333] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm font-medium"
-                >
-                  <FaStepBackward className="text-xs" /> Previous
-                </button>
-                <span className="text-xs text-gray-500 font-medium hidden sm:block">
-                  S{String(playingSeason).padStart(2, '0')}E{String(playingEpisode).padStart(2, '0')}
-                </span>
-                <button
-                  onClick={() => jumpEpisode(1)}
-                  disabled={activeEpisodeIndex < 0 || activeEpisodeIndex >= sortedEpisodes.length - 1}
-                  className="flex items-center gap-2 px-4 py-2 rounded-md bg-[#242424] border border-white/10 text-gray-300 hover:text-white hover:bg-[#333] disabled:opacity-30 disabled:cursor-not-allowed transition-all text-sm font-medium"
-                >
-                  Next <FaStepForward className="text-xs" />
-                </button>
-              </div>
-            )}
-          </div>
-        )}
 
         {activeTab === 'details' && (
           <div className="pb-12 space-y-4">
@@ -636,7 +370,7 @@ const TvDetails = ({ tvId: tvIdProp }) => {
         <div className="flex items-start gap-3 bg-[#242424] rounded-md p-4">
           <FaInfoCircle className="text-gray-400 text-base shrink-0 mt-0.5" />
           <p className="text-gray-400 text-xs leading-relaxed">
-            Select a season and episode, then click <strong className="text-gray-300">Play</strong> to start. For the best experience, use{" "}
+            Tap <strong className="text-gray-300">Watch Now</strong> to go to the watch page where you can pick season, episode, audio language, and quality. For the best experience, use{" "}
             <a href="https://ublockorigin.com" target="_blank" rel="noopener noreferrer" className="text-white font-medium underline underline-offset-2 hover:text-gray-300 transition-colors">
               uBlock Origin
             </a>.

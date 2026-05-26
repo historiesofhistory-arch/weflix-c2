@@ -28,14 +28,14 @@ import {
   fetchMbSubtitles,
   mbCoverUrl,
 } from "./Fetcher";
-import { API_BASE } from "../../lib/api";
+
 import { getIdFromDetailSlug, getTitleFromDetailSlug } from "./urlUtils";
 import { saveToContinueWatching } from "../../utils/continueWatching";
 import SEO from "./SEO";
 import { useProgressWhile } from "../../context/ProgressContext";
 import { useWatchlist } from "../../context/WatchlistContext";
 
-const BLOCK_SIZE = 24;
+const BLOCK_SIZE = 50;
 
 function buildVideoSources(streamList, quality) {
   if (!streamList?.length) return [];
@@ -62,137 +62,60 @@ function getQualityLabel(s) {
   return q ? `${q}p` : "?";
 }
 
-function DubDropdown({ dubs, activeDubId, onSelect }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
+function BottomSheet({ open, onClose, title, count, children }) {
   useEffect(() => {
-    if (!open) return;
-    const handler = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener("pointerdown", handler);
-    return () => document.removeEventListener("pointerdown", handler);
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  const active = dubs.find((d) => d.subjectId === activeDubId) || dubs[0];
-
-  if (!dubs.length) return null;
-
   return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 bg-[#1e1e1e] border border-white/10 hover:border-white/30 text-white text-xs font-medium px-3 py-2 rounded-lg transition-all min-w-[110px] justify-between"
+    <div
+      className={`fixed inset-0 z-[100] flex flex-col justify-end transition-opacity duration-300 ${
+        open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+      }`}
+    >
+      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+      <div
+        className={`relative bg-[#181818] rounded-t-2xl max-h-[75vh] flex flex-col transition-transform duration-300 ${
+          open ? "translate-y-0" : "translate-y-full"
+        }`}
       >
-        <span className="truncate">{active?.lanName || "Original"}</span>
-        <div className="flex items-center gap-1 shrink-0">
-          <span className="text-gray-400">{dubs.length}</span>
-          <FaChevronDown
-            className={`text-[10px] transition-transform text-gray-400 ${open ? "rotate-180" : ""}`}
-          />
+        <div className="flex justify-center pt-3 pb-1 shrink-0">
+          <div className="w-10 h-1 bg-white/20 rounded-full" />
         </div>
-      </button>
-      {open && (
-        <div className="absolute top-full left-0 mt-1 min-w-[160px] bg-[#1e1e1e] border border-white/10 rounded-lg shadow-2xl z-50 overflow-hidden max-h-52 overflow-y-auto">
-          {dubs.map((dub) => {
-            const isActive =
-              dub.subjectId === activeDubId ||
-              (!activeDubId && dub === dubs[0]);
-            return (
-              <button
-                key={dub.subjectId}
-                onClick={() => {
-                  onSelect(dub);
-                  setOpen(false);
-                }}
-                className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
-                  isActive
-                    ? "bg-red-600/20 text-red-400 font-medium"
-                    : "text-gray-300 hover:bg-white/5"
-                }`}
-              >
-                {dub.lanName}
-              </button>
-            );
-          })}
+        <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 shrink-0">
+          <span className="text-white font-semibold text-base">{title}</span>
+          {count != null && (
+            <span className="text-gray-400 text-sm">{count} options</span>
+          )}
         </div>
-      )}
+        <div className="overflow-y-auto flex-1 pb-6">{children}</div>
+      </div>
     </div>
   );
 }
 
-function SeasonDropdown({ seasons, activeSeason, onSelect }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener("pointerdown", handler);
-    return () => document.removeEventListener("pointerdown", handler);
-  }, [open]);
-
-  const active = seasons.find((s) => s.season_number === activeSeason);
-  if (!seasons.length) return null;
-
+const EpisodeBtn = memo(function EpisodeBtn({ ep, active, onSelect }) {
   return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 bg-[#1e1e1e] border border-white/10 hover:border-white/30 text-white text-xs font-medium px-3 py-2 rounded-lg transition-all min-w-[110px] justify-between"
-      >
-        <span>Season {String(activeSeason).padStart(2, "0")}</span>
-        <div className="flex items-center gap-1 shrink-0">
-          <span className="text-gray-400">{active?.episode_count ?? 0}</span>
-          <FaChevronDown
-            className={`text-[10px] transition-transform text-gray-400 ${open ? "rotate-180" : ""}`}
-          />
-        </div>
-      </button>
-      {open && (
-        <div className="absolute top-full left-0 mt-1 min-w-[160px] bg-[#1e1e1e] border border-white/10 rounded-lg shadow-2xl z-50 overflow-hidden max-h-52 overflow-y-auto">
-          {seasons.map((s) => {
-            const isActive = s.season_number === activeSeason;
-            return (
-              <button
-                key={s.season_number}
-                onClick={() => {
-                  onSelect(s.season_number);
-                  setOpen(false);
-                }}
-                className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
-                  isActive
-                    ? "bg-red-600/20 text-red-400 font-medium"
-                    : "text-gray-300 hover:bg-white/5"
-                }`}
-              >
-                Season {String(s.season_number).padStart(2, "0")}
-                <span className="text-gray-500 ml-2 text-xs">
-                  ({s.episode_count} ep{s.episode_count !== 1 ? "s" : ""})
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
+    <button
+      onClick={() => onSelect(ep.episode_number)}
+      className={`w-14 h-10 rounded-lg text-sm font-bold transition-all active:scale-95 flex items-center justify-center shrink-0 ${
+        active
+          ? "bg-red-600 text-white shadow-lg shadow-red-600/30"
+          : "bg-[#1e1e1e] text-gray-300 hover:bg-[#2a2a2a] hover:text-white border border-white/5 hover:border-white/20"
+      }`}
+    >
+      {String(ep.episode_number).padStart(2, "0")}
+    </button>
   );
-}
+});
 
-function EpisodeGrid({
-  episodes,
-  activeEpisode,
-  onSelect,
-  blockSize = BLOCK_SIZE,
-}) {
+function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE }) {
   const totalEps = episodes.length;
   const blockCount = Math.ceil(totalEps / blockSize);
   const [activeBlock, setActiveBlock] = useState(0);
   const [gotoVal, setGotoVal] = useState("");
-  const gotoRef = useRef(null);
 
   useEffect(() => {
     if (activeEpisode == null) return;
@@ -202,15 +125,19 @@ function EpisodeGrid({
 
   const blockStart = activeBlock * blockSize;
   const blockEps = episodes.slice(blockStart, blockStart + blockSize);
-  const firstEpNum = blockEps[0]?.episode_number;
-  const lastEpNum = blockEps[blockEps.length - 1]?.episode_number;
+  const firstNum = blockEps[0]?.episode_number;
+  const lastNum = blockEps[blockEps.length - 1]?.episode_number;
+
+  const row1 = blockEps.filter((_, i) => i % 2 === 0);
+  const row2 = blockEps.filter((_, i) => i % 2 === 1);
 
   const handleGoto = () => {
     const n = parseInt(gotoVal, 10);
     if (!n || n < 1) return;
-    const ep = episodes.find((e) => e.episode_number === n);
-    if (ep) {
-      onSelect(ep.episode_number);
+    const idx = episodes.findIndex((e) => e.episode_number === n);
+    if (idx >= 0) {
+      setActiveBlock(Math.floor(idx / blockSize));
+      onSelect(episodes[idx].episode_number);
       setGotoVal("");
     }
   };
@@ -219,62 +146,47 @@ function EpisodeGrid({
 
   return (
     <div className="animate-fadeIn">
-      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-        <div>
-          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-0.5">
-            Episodes
-          </span>
-          <div className="flex items-baseline gap-2">
-            <span className="text-white font-bold text-base">
-              Episode {activeEpisode}
+      <div className="mb-3">
+        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-0.5">
+          Episodes
+        </span>
+        <div className="flex items-baseline gap-2 flex-wrap">
+          <span className="text-white font-bold text-base">Episode {activeEpisode}</span>
+          <span className="text-gray-500 text-sm">/ {totalEps}</span>
+          {blockCount > 1 && (
+            <span className="text-[10px] font-bold text-gray-400 bg-[#1e1e1e] border border-white/10 px-2 py-0.5 rounded-md uppercase tracking-wide">
+              Block {firstNum}–{lastNum}
             </span>
-            <span className="text-gray-500 text-sm">/ {totalEps}</span>
-          </div>
+          )}
         </div>
-        {blockCount > 1 && (
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {Array.from({ length: blockCount }, (_, i) => {
-              const s = episodes[i * blockSize]?.episode_number;
-              const e =
-                episodes[Math.min((i + 1) * blockSize - 1, totalEps - 1)]
-                  ?.episode_number;
-              return (
-                <button
-                  key={i}
-                  onClick={() => setActiveBlock(i)}
-                  className={`text-[11px] font-bold px-2.5 py-1 rounded-md transition-all ${
-                    activeBlock === i
-                      ? "bg-red-600 text-white"
-                      : "bg-[#1e1e1e] text-gray-400 hover:text-white border border-white/10"
-                  }`}
-                >
-                  {s}-{e}
-                </button>
-              );
-            })}
-          </div>
-        )}
       </div>
 
-      <div className="flex items-center gap-2 mb-4">
-        <button
-          onClick={() => setActiveBlock(Math.floor(((firstEpNum || 1) - 1) / blockSize))}
-          className={`text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all border ${
-            episodes.findIndex(
-              (e) => e.episode_number === activeEpisode
-            ) >= blockStart &&
-            episodes.findIndex((e) => e.episode_number === activeEpisode) <
-              blockStart + blockSize
-              ? "bg-red-600 text-white border-red-600"
-              : "bg-[#1e1e1e] text-gray-300 border-white/10 hover:border-white/30"
-          }`}
-        >
-          {firstEpNum}-{lastEpNum}
-        </button>
-
-        <div className="flex items-center gap-1.5 ml-auto">
+      <div className="flex items-center gap-2 mb-3">
+        {blockCount > 1 && (
+          <div className="flex-1 overflow-x-auto scrollbar-hide">
+            <div className="flex gap-2 pb-1" style={{ width: "max-content" }}>
+              {Array.from({ length: blockCount }, (_, i) => {
+                const s = episodes[i * blockSize]?.episode_number;
+                const e = episodes[Math.min((i + 1) * blockSize - 1, totalEps - 1)]?.episode_number;
+                return (
+                  <button
+                    key={i}
+                    onClick={() => setActiveBlock(i)}
+                    className={`text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap transition-all ${
+                      activeBlock === i
+                        ? "bg-red-600 text-white"
+                        : "bg-[#1e1e1e] text-gray-400 border border-white/10 hover:text-white"
+                    }`}
+                  >
+                    {s}–{e}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        <div className="flex items-center gap-1.5 shrink-0 ml-auto">
           <input
-            ref={gotoRef}
             type="number"
             min="1"
             max={totalEps}
@@ -282,7 +194,7 @@ function EpisodeGrid({
             onChange={(e) => setGotoVal(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleGoto()}
             placeholder="Go to #"
-            className="w-20 px-2.5 py-1.5 rounded-lg bg-[#1e1e1e] border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-white/30 text-center"
+            className="w-20 px-2 py-1.5 rounded-lg bg-[#1e1e1e] border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-white/30 text-center"
           />
           <button
             onClick={handleGoto}
@@ -293,23 +205,31 @@ function EpisodeGrid({
         </div>
       </div>
 
-      <div className="grid grid-cols-6 gap-1.5">
-        {blockEps.map((ep) => {
-          const isActive = ep.episode_number === activeEpisode;
-          return (
-            <button
-              key={ep.episode_number}
-              onClick={() => onSelect(ep.episode_number)}
-              className={`aspect-square rounded-lg text-sm font-bold transition-all active:scale-95 flex items-center justify-center ${
-                isActive
-                  ? "bg-red-600 text-white shadow-lg shadow-red-600/30 scale-105"
-                  : "bg-[#1e1e1e] text-gray-300 hover:bg-[#2a2a2a] hover:text-white border border-white/5 hover:border-white/20"
-              }`}
-            >
-              {String(ep.episode_number).padStart(2, "0")}
-            </button>
-          );
-        })}
+      <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+        <div className="flex flex-col gap-1.5" style={{ width: "max-content" }}>
+          <div className="flex gap-1.5">
+            {row1.map((ep) => (
+              <EpisodeBtn
+                key={ep.episode_number}
+                ep={ep}
+                active={ep.episode_number === activeEpisode}
+                onSelect={onSelect}
+              />
+            ))}
+          </div>
+          {row2.length > 0 && (
+            <div className="flex gap-1.5">
+              {row2.map((ep) => (
+                <EpisodeBtn
+                  key={ep.episode_number}
+                  ep={ep}
+                  active={ep.episode_number === activeEpisode}
+                  onSelect={onSelect}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -344,6 +264,8 @@ const WatchPage = ({ type }) => {
   const [activeDubId, setActiveDubId] = useState(null);
 
   const [selectedQuality, setSelectedQuality] = useState(null);
+  const [dubSheetOpen, setDubSheetOpen] = useState(false);
+  const [seasonSheetOpen, setSeasonSheetOpen] = useState(false);
 
   const playerKey = useRef(0);
   const { user } = useWatchlist();
@@ -526,8 +448,11 @@ const WatchPage = ({ type }) => {
   const videoSources = useMemo(() => {
     if (!streamData?.streams?.length) return [];
 
+    const proxyBase = streamData.proxyBase || "";
     const proxied = (rawUrl) =>
-      `${API_BASE}/stream/proxy?url=${encodeURIComponent(rawUrl)}`;
+      proxyBase
+        ? `${proxyBase}?url=${encodeURIComponent(rawUrl)}`
+        : rawUrl;
 
     const sorted = [...streamData.streams].sort((a, b) => {
       const qa = parseInt(a.quality || a.resolutions || a.resolution || 720, 10);
@@ -708,20 +633,36 @@ const WatchPage = ({ type }) => {
             <div className="h-8 w-28 bg-white/10 rounded-lg animate-pulse" />
           ) : (
             dubs.length > 0 && (
-              <DubDropdown
-                dubs={dubs}
-                activeDubId={activeDubId}
-                onSelect={handleDubSelect}
-              />
+              <button
+                onClick={() => setDubSheetOpen(true)}
+                className="flex items-center gap-2 bg-[#1e1e1e] border border-white/10 hover:border-white/30 text-white text-xs font-medium px-3 py-2 rounded-lg transition-all"
+              >
+                <span>
+                  {dubs.find((d) => d.subjectId === activeDubId)?.lanName ||
+                    dubs[0]?.lanName ||
+                    "Original Audio"}
+                </span>
+                <div className="flex items-center gap-1 shrink-0">
+                  <span className="text-gray-400">{dubs.length}</span>
+                  <FaChevronDown className="text-[10px] text-gray-400" />
+                </div>
+              </button>
             )
           )}
 
           {type === "tv" && seasons.length > 0 && (
-            <SeasonDropdown
-              seasons={seasons}
-              activeSeason={season}
-              onSelect={handleSeasonSelect}
-            />
+            <button
+              onClick={() => setSeasonSheetOpen(true)}
+              className="flex items-center gap-2 bg-[#1e1e1e] border border-white/10 hover:border-white/30 text-white text-xs font-medium px-3 py-2 rounded-lg transition-all"
+            >
+              <span>Season {String(season).padStart(2, "0")}</span>
+              <div className="flex items-center gap-1 shrink-0">
+                <span className="text-gray-400">
+                  {seasons.find((s) => s.season_number === season)?.episode_count ?? 0}
+                </span>
+                <FaChevronDown className="text-[10px] text-gray-400" />
+              </div>
+            </button>
           )}
         </div>
 
@@ -772,6 +713,78 @@ const WatchPage = ({ type }) => {
       )}
 
       <div className="h-16" />
+
+      <BottomSheet
+        open={dubSheetOpen}
+        onClose={() => setDubSheetOpen(false)}
+        title="Audio Language"
+        count={dubs.length}
+      >
+        {dubs.map((dub) => {
+          const isActive =
+            dub.subjectId === activeDubId || (!activeDubId && dub === dubs[0]);
+          return (
+            <button
+              key={dub.subjectId}
+              onClick={() => {
+                handleDubSelect(dub);
+                setDubSheetOpen(false);
+              }}
+              className={`w-full flex items-center justify-between px-5 py-4 text-sm transition-colors border-b border-white/5 ${
+                isActive
+                  ? "text-red-400 font-semibold bg-red-600/5"
+                  : "text-gray-200 hover:bg-white/5"
+              }`}
+            >
+              <span>{dub.lanName}</span>
+              {isActive && (
+                <svg className="w-4 h-4 text-red-400 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+                </svg>
+              )}
+            </button>
+          );
+        })}
+      </BottomSheet>
+
+      {type === "tv" && (
+        <BottomSheet
+          open={seasonSheetOpen}
+          onClose={() => setSeasonSheetOpen(false)}
+          title="Season"
+          count={seasons.length}
+        >
+          {seasons.map((s) => {
+            const isActive = s.season_number === season;
+            return (
+              <button
+                key={s.season_number}
+                onClick={() => {
+                  handleSeasonSelect(s.season_number);
+                  setSeasonSheetOpen(false);
+                }}
+                className={`w-full flex items-center justify-between px-5 py-4 text-sm transition-colors border-b border-white/5 ${
+                  isActive
+                    ? "text-red-400 font-semibold bg-red-600/5"
+                    : "text-gray-200 hover:bg-white/5"
+                }`}
+              >
+                <span>
+                  Season {String(s.season_number).padStart(2, "0")}
+                  <span className="text-gray-500 ml-2 text-xs font-normal">
+                    ({s.episode_count} ep{s.episode_count !== 1 ? "s" : ""})
+                  </span>
+                </span>
+                {isActive && (
+                  <svg className="w-4 h-4 text-red-400 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+                  </svg>
+                )}
+              </button>
+            );
+          })}
+        </BottomSheet>
+      )}
     </div>
   );
 };
