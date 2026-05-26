@@ -40,6 +40,8 @@ function ParentComponent() {
     }
   };
 
+  const isWatchPage = location.pathname.startsWith('/watch/');
+
   const activePage =
     location.pathname === '/'                  ? 'home'
     : location.pathname.startsWith('/movies')  ? 'movies'
@@ -82,7 +84,7 @@ function ParentComponent() {
           with touch on mobile (the wrapper applied transient styles during
           its 180ms exit phase that could swallow swipes if the user
           touched right after a route change). Reverted to plain Outlet. */}
-      <div className="md:pl-[84px] pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
+      <div className={`md:pl-[84px] md:pb-0 transition-[padding] duration-300 ${isWatchPage ? 'pb-0' : 'pb-[calc(4.5rem+env(safe-area-inset-bottom))]'}`}>
         <Outlet />
 
         {/* Footer — home page only */}
@@ -105,7 +107,14 @@ function ParentComponent() {
 
       {/* Mobile bottom navigation — translucent frosted-glass like iOS tab bar.
           backdrop-blur is GPU-cheap because the nav is a small fixed element. */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#070b14]/80 backdrop-blur-xl backdrop-saturate-150 border-t border-white/[0.06] flex items-center justify-around px-2 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.45rem)]">
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#070b14]/80 backdrop-blur-xl backdrop-saturate-150 border-t border-white/[0.06] flex items-center justify-around px-2 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.45rem)]"
+        style={{
+          transform: isWatchPage ? 'translateY(100%)' : 'translateY(0)',
+          transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+          pointerEvents: isWatchPage ? 'none' : 'auto',
+        }}
+      >
         <LayoutGroup id="bottom-nav">
         {[
           { id: 'home',   icon: BiHomeAlt,   label: 'Home'    },

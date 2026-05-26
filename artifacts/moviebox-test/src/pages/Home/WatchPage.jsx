@@ -521,9 +521,9 @@ const WatchPage = ({ type }) => {
         <div className="flex items-center gap-3 px-3 py-2.5">
           <button
             onClick={() => navigate(-1)}
-            className="group flex items-center gap-2 text-gray-300 hover:text-white text-sm font-medium transition-colors p-1"
+            className="group flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white transition-all shrink-0"
           >
-            <FaArrowLeft className="group-hover:-translate-x-0.5 transition-transform" />
+            <FaArrowLeft className="text-sm group-hover:-translate-x-0.5 transition-transform" />
           </button>
           <div className="flex-1 min-w-0">
             {detail ? (
