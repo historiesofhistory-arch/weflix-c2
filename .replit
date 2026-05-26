@@ -1,4 +1,4 @@
-modules = ["nodejs-24"]
+modules = ["nodejs-24", "python-3.11"]
 
 [[artifacts]]
 id = "artifacts/api-server"
@@ -70,6 +70,12 @@ VITE_BASE_URL = "https://api.themoviedb.org/3"
 MOVIEBOX_BFF_SECRET = "76iRl07s0xSN9jqmEWAt79EBJZulIQIsV64FZr2O"
 CF_H5_WORKER_URL = "https://h5-token-proxy.popcorntv-proxy.workers.dev/"
 BFF_AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjE3MTY3NjczMDA2OTY1NTcwMzIsInV0cCI6MSwiZXhwIjoxNzgzODc0Mjk1LCJpYXQiOjE3NzYwOTc5OTV9.Q4_EpUhkYruee8Fu3MFZyAOdNsHpZYit2wpsFf9YpOM"
+CF_ACCOUNT_ID = "2a78522939a0d26f8e4efe2781a29ad5"
+CF_MOVIEBOX_PROXY_URL = "https://moviebox-proxy.moviebox-proxy.workers.dev"
+CF_MOVIEBOX_API_KEY = "wf_mb_2ac6ac4804631104720a773e93bef527"
+STREAM_PROXY_URL = "https://moviebox-proxy.moviebox-proxy.workers.dev/stream"
+SUBTITLE_PROXY_URL = "https://moviebox-proxy.moviebox-proxy.workers.dev/stream"
+USE_CF_PROXY = "true"
 
 [userenv.production]
 CF_STREAM_PROXY_URL = "https://weflix-stream-proxy.popcorntv-proxy.workers.dev/"
