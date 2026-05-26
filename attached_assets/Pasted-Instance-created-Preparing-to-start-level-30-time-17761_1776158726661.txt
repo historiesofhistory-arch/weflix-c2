@@ -1,0 +1,52 @@
+Instance created. Preparing to start...
+{"level":30,"time":1776158612860,"pid":1,"hostname":"9b4c693b","publicDir":"/app/artifacts/api-server/dist/public","msg":"Serving static frontend from dist/public"}
+{"level":30,"time":1776158612864,"pid":1,"hostname":"9b4c693b","port":80,"msg":"Server listening"}
+{"level":30,"time":1776158612927,"pid":1,"hostname":"9b4c693b","cfWorker":"https://moviebox-proxy.popcorntv-proxy.workers.dev","msg":"USE_CF_PROXY=true — skipping direct probe, using CF Worker for all BFF requests"}
+{"level":30,"time":1776158613098,"pid":1,"hostname":"9b4c693b","ip":"54.38.154.45","city":"Frankfurt am Main","region":"Hesse","country":"DE","org":"AS16276 OVH SAS","timezone":"Europe/Berlin","msg":"Server datacenter info"}
+{"level":30,"time":1776158614399,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/user-api/login","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158614399,"pid":1,"hostname":"9b4c693b","userId":"1716767300696557032","expiresIn":"90d","msg":"BFF email login successful"}
+{"level":30,"time":1776158614399,"pid":1,"hostname":"9b4c693b","msg":"Auth token pre-warmed at startup"}
+Instance is healthy. All health checks are passing.
+{"level":30,"time":1776158644246,"pid":1,"hostname":"9b4c693b","req":{"id":1,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":20,"msg":"request completed"}
+{"level":30,"time":1776158644249,"pid":1,"hostname":"9b4c693b","req":{"id":2,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776158644251,"pid":1,"hostname":"9b4c693b","req":{"id":3,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776158644271,"pid":1,"hostname":"9b4c693b","req":{"id":4,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":18,"msg":"request completed"}
+{"level":30,"time":1776158644592,"pid":1,"hostname":"9b4c693b","req":{"id":5,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776158647246,"pid":1,"hostname":"9b4c693b","req":{"id":6,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776158647248,"pid":1,"hostname":"9b4c693b","req":{"id":7,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776158647250,"pid":1,"hostname":"9b4c693b","req":{"id":8,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776158648809,"pid":1,"hostname":"9b4c693b","req":{"id":9,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776158648812,"pid":1,"hostname":"9b4c693b","req":{"id":10,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776158648834,"pid":1,"hostname":"9b4c693b","req":{"id":11,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776158651605,"pid":1,"hostname":"9b4c693b","req":{"id":12,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776158673962,"pid":1,"hostname":"9b4c693b","req":{"id":13,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776158673964,"pid":1,"hostname":"9b4c693b","req":{"id":14,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776158674804,"pid":1,"hostname":"9b4c693b","subjectId":"3987904286045913104","type":"tv","se":1,"ep":4,"msg":"mb-stream: resolving stream"}
+{"level":30,"time":1776158674805,"pid":1,"hostname":"9b4c693b","subjectId":"3987904286045913104","se":1,"ep":4,"msg":"mb-stream: trying H5 play (primary)"}
+{"level":30,"time":1776158674871,"pid":1,"hostname":"9b4c693b","subjectId":"3987904286045913104","se":1,"ep":4,"count":3,"msg":"MovieBox: H5 play endpoint returned streams"}
+{"level":30,"time":1776158675774,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/get","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158676117,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/subtitle-search","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158676117,"pid":1,"hostname":"9b4c693b","subjectId":"3987904286045913104","source":"h5-play","streams":3,"dubs":6,"msg":"mb-stream: resolved via H5 play"}
+{"level":30,"time":1776158676118,"pid":1,"hostname":"9b4c693b","req":{"id":15,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":1315,"msg":"request completed"}
+{"level":30,"time":1776158677486,"pid":1,"hostname":"9b4c693b","subjectId":"3987904286045913104","season":"1","episode":"4","msg":"mb-play: resolving language variant"}
+{"level":30,"time":1776158677489,"pid":1,"hostname":"9b4c693b","subjectId":"3987904286045913104","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776158677745,"pid":1,"hostname":"9b4c693b","req":{"id":18,"method":"GET","url":"/series/watch/a-couple-of-cuckoos-hindi-s1e4-3987904286045913104"},"res":{"statusCode":200},"responseTime":10,"msg":"request completed"}
+{"level":30,"time":1776158677839,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/get","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158678167,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/get","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158678167,"pid":1,"hostname":"9b4c693b","title":"A Couple of Cuckoos [Hindi] S1E4","year":"2022","type":"tv","season":"1","episode":"4","hasDubs":6,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776158678168,"pid":1,"hostname":"9b4c693b","title":"A Couple of Cuckoos [Hindi]","probing":6,"existing":6,"msg":"lang-probe: starting probes"}
+{"level":30,"time":1776158678752,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/play-info","status":406,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":50,"time":1776158678752,"pid":1,"hostname":"9b4c693b","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"3987904286045913104","msg":"BFF play-info error"}
+{"level":40,"time":1776158678753,"pid":1,"hostname":"9b4c693b","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"3987904286045913104","msg":"MovieBox: BFF play-info failed, will try H5"}
+{"level":30,"time":1776158678774,"pid":1,"hostname":"9b4c693b","subjectId":"3987904286045913104","streams":3,"msg":"mb-play: resolved"}
+{"level":30,"time":1776158678775,"pid":1,"hostname":"9b4c693b","req":{"id":16,"method":"GET","url":"/api/stream/mb-play"},"res":{"statusCode":304},"responseTime":1289,"msg":"request completed"}
+{"level":30,"time":1776158679169,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/search","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158679274,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/search","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158679369,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/search","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158679568,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/search","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158679676,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/search","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158679970,"pid":1,"hostname":"9b4c693b","path":"/wefeed-mobile-bff/subject-api/search","status":200,"cfPlacement":"remote-SIN","msg":"CF Worker BFF request"}
+{"level":30,"time":1776158680150,"pid":1,"hostname":"9b4c693b","title":"A Couple of Cuckoos [Hindi]","probed":6,"discovered":0,"total":6,"msg":"lang-probe: complete"}
+{"level":30,"time":1776158680150,"pid":1,"hostname":"9b4c693b","dubCount":6,"msg":"mb-languages: skipping dub validation (play-info blocked from datacenter)"}
+{"level":30,"time":1776158680150,"pid":1,"hostname":"9b4c693b","title":"A Couple of Cuckoos [Hindi] S1E4","totalDubs":6,"probed":6,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776158680151,"pid":1,"hostname":"9b4c693b","req":{"id":17,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":304},"responseTime":2663,"msg":"request completed"}

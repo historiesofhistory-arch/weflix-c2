@@ -1,0 +1,100 @@
+#18 3.390 │   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+#18 3.390 │   to run scripts.                                                            │
+#18 3.390 │                                                                              │
+#18 3.390 ╰──────────────────────────────────────────────────────────────────────────────╯
+#18 3.424 Done in 3.3s using pnpm v10.33.0
+#18 DONE 5.2s
+
+#19 [build-api 1/3] COPY lib/ ./lib/
+#19 DONE 0.2s
+
+#20 [build-api 2/3] COPY artifacts/api-server/ ./artifacts/api-server/
+#20 DONE 0.0s
+
+#21 [build-frontend 2/3] COPY artifacts/moviebox-test/ ./artifacts/moviebox-test/
+#21 DONE 0.0s
+
+#22 [build-frontend 3/3] RUN pnpm --filter @workspace/moviebox-test run build
+#22 0.367 
+#22 0.367 > @workspace/moviebox-test@0.0.0 build /app/artifacts/moviebox-test
+#22 0.367 > vite build --config vite.config.ts
+#22 0.367 
+#22 0.489 /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115
+#22 0.489 		throw new Error(
+#22 0.489 		      ^
+#22 0.489 
+#22 0.489 Error: Cannot find module @rollup/rollup-linux-x64-musl. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+#22 0.489     at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:115:9)
+#22 0.489     at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+#22 0.489     ... 3 lines matching cause stack trace ...
+#22 0.489     at Module._load (node:internal/modules/cjs/loader:1091:12)
+#22 0.489     at cjsLoader (node:internal/modules/esm/translators:298:15)
+#22 0.489     at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:240:7)
+#22 0.489     at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+#22 0.489     at async ModuleLoader.import (node:internal/modules/esm/loader:606:24) {
+#22 0.489   [cause]: Error: Cannot find module '@rollup/rollup-linux-x64-musl'
+#22 0.489   Require stack:
+#22 0.489   - /app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js
+#22 0.489       at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+#22 0.489       at Module._load (node:internal/modules/cjs/loader:1038:27)
+#22 0.489       at Module.require (node:internal/modules/cjs/loader:1289:19)
+#22 0.489       at require (node:internal/modules/helpers:182:18)
+#22 0.489       at requireWithFriendlyError (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:97:10)
+#22 0.489       at Object.<anonymous> (/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js:124:76)
+#22 0.489       at Module._compile (node:internal/modules/cjs/loader:1521:14)
+#22 0.489       at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+#22 0.489       at Module.load (node:internal/modules/cjs/loader:1266:32)
+#22 0.489       at Module._load (node:internal/modules/cjs/loader:1091:12) {
+#22 0.489     code: 'MODULE_NOT_FOUND',
+#22 0.489     requireStack: [
+#22 0.489       '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+#22 0.489     ]
+#22 0.489   }
+#22 0.489 }
+#22 0.489 
+#22 0.489 Node.js v20.20.2
+#22 0.526 /app/artifacts/moviebox-test:
+#22 0.526  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/moviebox-test@0.0.0 build: `vite build --config vite.config.ts`
+#22 0.526 Exit status 1
+#22 ERROR: process "/bin/sh -c pnpm --filter @workspace/moviebox-test run build" did not complete successfully: exit code: 1
+
+#23 [build-api 3/3] RUN pnpm --filter @workspace/api-server run build
+#23 0.378 
+#23 0.378 > @workspace/api-server@0.0.0 build /app/artifacts/api-server
+#23 0.378 > node ./build.mjs
+#23 0.378 
+#23 0.465 ▲ [WARNING] Using direct eval with a bundler is not recommended and may cause problems [direct-eval]
+#23 0.465 
+#23 0.465     src/scrapers/vidlink.ts:52:6:
+#23 0.465       52 │       eval(runtimeCode);
+#23 0.465          ╵       ~~~~
+#23 0.465 
+#23 0.465   You can read more about direct eval and bundling here: https://esbuild.github.io/link/direct-eval
+#23 0.465 
+#23 CANCELED
+Build failed ❌
+------
+ > importing cache manifest from registry01.prod.koyeb.com/k-fa45f94f-4641-4391-b7c4-2eb119331267/9011ae77-7f85-4835-b103-dcb387dd5a90-cache:latest:
+------
+------
+ > [build-frontend 3/3] RUN pnpm --filter @workspace/moviebox-test run build:
+0.489     requireStack: [
+0.489       '/app/node_modules/.pnpm/rollup@4.59.0/node_modules/rollup/dist/native.js'
+0.489     ]
+0.489   }
+0.489 }
+0.489 
+0.489 Node.js v20.20.2
+0.526 /app/artifacts/moviebox-test:
+0.526  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/moviebox-test@0.0.0 build: `vite build --config vite.config.ts`
+0.526 Exit status 1
+------
+Dockerfile:33
+--------------------
+  31 |     ENV VITE_FIREBASE_APP_ID=$VITE_FIREBASE_APP_ID
+  32 |     ENV VITE_FIREBASE_MEASUREMENT_ID=$VITE_FIREBASE_MEASUREMENT_ID
+  33 | >>> RUN pnpm --filter @workspace/moviebox-test run build
+  34 |     
+  35 |     FROM deps AS build-api
+--------------------
+error: failed to solve: process "/bin/sh -c pnpm --filter @workspace/moviebox-test run build" did not complete successfully: exit code: 1

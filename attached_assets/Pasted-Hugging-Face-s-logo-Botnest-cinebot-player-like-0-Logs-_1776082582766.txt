@@ -1,0 +1,137 @@
+Hugging Face's logo
+Botnest
+/
+cinebot-player 
+
+like
+0
+
+
+Logs
+
+build
+container
+
+
+
+
+===== Application Startup at 2026-04-13 12:13:47 =====
+
+{"level":30,"time":1776082438298,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","publicDir":"/app/artifacts/api-server/dist/public","msg":"Serving frontend static files"}
+{"level":30,"time":1776082438305,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","port":7860,"msg":"Server listening"}
+🎬 CineBot is running with MovieBox API!
+{"level":30,"time":1776082441582,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":1,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":13,"msg":"request completed"}
+{"level":30,"time":1776082458871,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":2,"method":"GET","url":"/api/stream/mb-detail"},"res":{"statusCode":200},"responseTime":782,"msg":"request completed"}
+{"level":30,"time":1776082459097,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":3,"method":"GET","url":"/api/stream/mb-seasons"},"res":{"statusCode":200},"responseTime":190,"msg":"request completed"}
+{"level":30,"time":1776082463412,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":4,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":3,"msg":"request completed"}
+{"level":30,"time":1776082463737,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":6,"method":"GET","url":"/assets/index-mt86x5WS.css"},"res":{"statusCode":200},"responseTime":7,"msg":"request completed"}
+{"level":30,"time":1776082463742,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":5,"method":"GET","url":"/assets/index-aACRPzVB.js"},"res":{"statusCode":200},"responseTime":17,"msg":"request completed"}
+{"level":30,"time":1776082465362,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","subjectId":"4817252393836527568","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776082465370,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":10,"method":"GET","url":"/favicon.ico"},"res":{"statusCode":200},"responseTime":5,"msg":"request completed"}
+{"level":30,"time":1776082465713,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":7,"method":"GET","url":"/api/stream/mb-seasons"},"res":{"statusCode":200},"responseTime":374,"msg":"request completed"}
+{"level":30,"time":1776082465752,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","title":"My Happy Marriage S1-S2","type":"tv","season":"1","episode":"1","hasDubs":9,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776082465753,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","title":"My Happy Marriage S1-S2","probing":5,"existing":9,"msg":"lang-probe: starting probes"}
+{"level":30,"time":1776082465981,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/user-api/login","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082465981,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082465981,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","status":403,"msg":"BFF email login failed"}
+{"level":30,"time":1776082466093,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"Obtained H5 guest token"}
+{"level":30,"time":1776082466138,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"Obtained H5 guest token"}
+{"level":30,"time":1776082466216,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/search","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082466217,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082466217,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/search: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","keyword":"My Happy Marriage S1-S2 Telugu","msg":"BFF search error (auth)"}
+{"level":30,"time":1776082466333,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"Obtained H5 guest token"}
+{"level":30,"time":1776082466343,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"Obtained H5 guest token"}
+{"level":30,"time":1776082466359,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"Obtained H5 guest token"}
+{"level":30,"time":1776082466389,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"Obtained H5 guest token"}
+{"level":30,"time":1776082466446,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/search","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082466446,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082466446,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/search: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","keyword":"My Happy Marriage S1-S2 Portuguese","msg":"BFF search error (auth)"}
+{"level":30,"time":1776082466458,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/get","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082466458,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":30,"time":1776082466458,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/get","attempt":2,"err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/get: {\"c","msg":"BFF request failed — retrying"}
+{"level":30,"time":1776082466657,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/search","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082466657,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082466657,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/search: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","keyword":"My Happy Marriage S1-S2 Tamil","msg":"BFF search error (auth)"}
+{"level":30,"time":1776082466686,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/search","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082466686,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082466686,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/search: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","keyword":"My Happy Marriage S1-S2 Korean","msg":"BFF search error (auth)"}
+{"level":30,"time":1776082466699,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/search","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082466699,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082466700,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/search: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","keyword":"My Happy Marriage S1-S2 Chinese","msg":"BFF search error (auth)"}
+{"level":30,"time":1776082467571,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/user-api/login","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082467572,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082467572,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","status":403,"msg":"BFF email login failed"}
+{"level":30,"time":1776082467588,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","title":"My Happy Marriage S1-S2","probed":5,"discovered":0,"total":9,"msg":"lang-probe: complete"}
+{"level":30,"time":1776082467590,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","title":"My Happy Marriage S1-S2","totalDubs":9,"probed":9,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776082467591,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":9,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":200},"responseTime":2231,"msg":"request completed"}
+{"level":30,"time":1776082467681,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/get","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082467681,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":30,"time":1776082467681,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/get","attempt":3,"err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/get: {\"c","msg":"BFF request failed — retrying"}
+{"level":30,"time":1776082468789,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/user-api/login","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082468789,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082468789,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","status":403,"msg":"BFF email login failed"}
+{"level":30,"time":1776082468894,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/get","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082468894,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":40,"time":1776082468894,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/get: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","subjectId":"4817252393836527568","msg":"BFF get subject failed after retries"}
+{"level":50,"time":1776082468894,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","subjectId":"4817252393836527568","msg":"All fallbacks exhausted for subject detail"}
+{"level":30,"time":1776082469018,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":8,"method":"GET","url":"/api/stream/mb-play"},"res":{"statusCode":200},"responseTime":3672,"msg":"request completed"}
+{"level":30,"time":1776082470158,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":12,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":5,"msg":"request completed"}
+{"level":30,"time":1776082470213,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":11,"method":"GET","url":"/api/stream/proxy"},"res":{"statusCode":null},"responseTime":67,"msg":"request aborted"}
+{"level":30,"time":1776082470249,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":14,"method":"GET","url":"/assets/prod-DVS_Gqch.js"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776082470720,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":13,"method":"GET","url":"/api/stream/proxy"},"res":{"statusCode":403},"responseTime":499,"msg":"request completed"}
+{"level":30,"time":1776082487109,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":15,"method":"GET","url":"/api/stream/proxy"},"res":{"statusCode":403},"responseTime":241,"msg":"request completed"}
+{"level":30,"time":1776082491071,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":16,"method":"GET","url":"/api/stream/mb-seasons"},"res":{"statusCode":304},"responseTime":362,"msg":"request completed"}
+{"level":30,"time":1776082513065,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":17,"method":"GET","url":"/api/stream/mb-search"},"res":{"statusCode":200},"responseTime":855,"msg":"request completed"}
+{"level":30,"time":1776082519737,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":18,"method":"GET","url":"/api/stream/mb-detail"},"res":{"statusCode":200},"responseTime":474,"msg":"request completed"}
+{"level":30,"time":1776082519885,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":19,"method":"GET","url":"/api/stream/mb-seasons"},"res":{"statusCode":200},"responseTime":141,"msg":"request completed"}
+{"level":30,"time":1776082523158,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":20,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":3,"msg":"request completed"}
+{"level":30,"time":1776082523792,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","subjectId":"1224314786389919608","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776082523797,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":23,"method":"GET","url":"/favicon.ico"},"res":{"statusCode":304},"responseTime":7,"msg":"request completed"}
+{"level":30,"time":1776082523920,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":22,"method":"GET","url":"/api/stream/mb-seasons"},"res":{"statusCode":200},"responseTime":132,"msg":"request completed"}
+{"level":30,"time":1776082524106,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/user-api/login","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082524107,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082524107,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","status":403,"msg":"BFF email login failed"}
+{"level":30,"time":1776082524195,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","title":"My Happy Marriage [English] S1-S2","type":"tv","season":"1","episode":"1","hasDubs":9,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776082524197,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","title":"My Happy Marriage [English] S1-S2","probing":5,"existing":9,"msg":"lang-probe: starting probes"}
+{"level":30,"time":1776082524216,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/get","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082524216,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":30,"time":1776082524216,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/get","attempt":2,"err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/get: {\"c","msg":"BFF request failed — retrying"}
+{"level":30,"time":1776082524496,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/user-api/login","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082524501,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082524501,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","status":403,"msg":"BFF email login failed"}
+{"level":30,"time":1776082524611,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/search","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082524611,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082524612,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/search: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","keyword":"My Happy Marriage [English] S1-S2 Tamil","msg":"BFF search error (auth)"}
+{"level":30,"time":1776082524619,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/search","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082524622,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082524622,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/search: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","keyword":"My Happy Marriage [English] S1-S2 Telugu","msg":"BFF search error (auth)"}
+{"level":30,"time":1776082524807,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/search","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082524808,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082524808,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/search: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","keyword":"My Happy Marriage [English] S1-S2 Portuguese","msg":"BFF search error (auth)"}
+{"level":30,"time":1776082524811,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/search","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082524811,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082524811,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/search: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","keyword":"My Happy Marriage [English] S1-S2 Korean","msg":"BFF search error (auth)"}
+{"level":30,"time":1776082524817,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/search","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082524819,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082524819,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/search: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","keyword":"My Happy Marriage [English] S1-S2 Chinese","msg":"BFF search error (auth)"}
+{"level":30,"time":1776082525323,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/user-api/login","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082525324,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082525324,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","status":403,"msg":"BFF email login failed"}
+{"level":30,"time":1776082525428,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/get","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082525428,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":30,"time":1776082525429,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/get","attempt":3,"err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/get: {\"c","msg":"BFF request failed — retrying"}
+{"level":30,"time":1776082525681,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","title":"My Happy Marriage [English] S1-S2","probed":5,"discovered":0,"total":9,"msg":"lang-probe: complete"}
+{"level":30,"time":1776082525681,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","title":"My Happy Marriage [English] S1-S2","totalDubs":9,"probed":9,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776082525682,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":24,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":200},"responseTime":1890,"msg":"request completed"}
+{"level":30,"time":1776082526535,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/user-api/login","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082526535,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":50,"time":1776082526535,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","status":403,"msg":"BFF email login failed"}
+{"level":30,"time":1776082526647,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","path":"/wefeed-mobile-bff/subject-api/get","msg":"Direct BFF returned 403 — trying proxy"}
+{"level":50,"time":1776082526647,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","msg":"No BFF_PROXY_URL configured — refusing to send auth request via untrusted proxy"}
+{"level":40,"time":1776082526647,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","err":"Error: BFF auth request returned 403 for /wefeed-mobile-bff/subject-api/get: {\"code\":403,\"message\":\"Region blocked and no proxy available\"}","subjectId":"1224314786389919608","msg":"BFF get subject failed after retries"}
+{"level":50,"time":1776082526647,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","subjectId":"1224314786389919608","msg":"All fallbacks exhausted for subject detail"}
+{"level":30,"time":1776082526772,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":21,"method":"GET","url":"/api/stream/mb-play"},"res":{"statusCode":200},"responseTime":2990,"msg":"request completed"}
+{"level":30,"time":1776082529157,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":25,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776082529292,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":26,"method":"GET","url":"/api/stream/proxy"},"res":{"statusCode":403},"responseTime":133,"msg":"request completed"}
+{"level":30,"time":1776082529359,"pid":9,"hostname":"r-botnest-cinebot-player-dpfi4xn1-5939b-m5lsn","req":{"id":27,"method":"GET","url":"/api/stream/proxy"},"res":{"statusCode":403},"responseTime":32,"msg":"request completed"}
+ 

@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: cinebot-api
+    runtime: node
+    plan: free
+    buildCommand: pnpm install --no-frozen-lockfile && pnpm --filter @workspace/api-server run build && PORT=3000 BASE_PATH=/ pnpm --filter @workspace/cinebot-app run build && cp -r artifacts/cinebot-app/dist/public artifacts/api-server/dist/public
+    startCommand: node --enable-source-maps artifacts/api-server/dist/index.mjs
+    healthCheckPath: /api/healthz
+    autoDeploy: false
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MOVIEBOX_EMAIL
+        sync: false
+      - key: MOVIEBOX_PASSWORD
+        sync: false
+      - key: MOVIEBOX_BFF_SECRET
+        sync: false
+      - key: USE_CF_PROXY
+        value: "true"
+      - key: PLAYER_URL
+        sync: false
+
+  - type: worker
+    name: cinebot-telegram-bot
+    runtime: node
+    plan: free
+    buildCommand: pnpm install --no-frozen-lockfile
+    startCommand: node artifacts/tg-bot/src/bot.mjs
+    autoDeploy: false
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: API_BASE_URL
+        sync: false
+      - key: PLAYER_URL
+        sync: false

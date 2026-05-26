@@ -1,0 +1,16 @@
+node_modules
+.git
+**/dist
+he-project
+artifacts/mockup-sandbox
+artifacts/weflix
+.local
+.cache
+.replit
+replit.md
+replit.nix
+*.log
+.env
+.env.*
+attached_assets
+screenshots

@@ -1,0 +1,313 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  --motion-fast: 160ms;
+  --motion-base: 220ms;
+  --motion-slow: 300ms;
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  /* Type scale (modular minor-third, adjusted) */
+  --fs-xs: 11px;
+  --fs-sm: 13px;
+  --fs-base: 15px;
+  --fs-lg: 17px;
+  --fs-xl: 20px;
+  --fs-2xl: 26px;
+  --fs-3xl: 34px;
+  --fs-display: clamp(2.6rem, 6vw, 4.5rem);
+  --tracking-tight: -0.012em;
+  --tracking-display: -0.03em;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  /* Native scroll only — global `scroll-behavior: smooth` interpolates every
+     wheel/touch scroll and breaks momentum scrolling. Programmatic
+     `scrollTo({ behavior: 'smooth' })` calls still work. */
+}
+
+/* Note: an earlier perf pass enabled `content-visibility: auto` on
+   off-screen carousels, but it caused jumpy/stuck scrolling on iOS WebView
+   (the WeFlix mobile shell) and was reverted. The class is kept as a
+   no-op so the JSX doesn't need to be touched if we re-enable behind a
+   feature flag later. */
+.row-deferred { /* intentionally empty */ }
+
+html, body {
+  background-color: #0a0c12;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv11', 'ss01';
+  letter-spacing: var(--tracking-tight);
+}
+
+/* App-feel: disable accidental text selection on long-press / drag.
+   Inputs, textareas, and explicit `.selectable` text re-enable it so the
+   user can still type, paste, and copy where it actually matters. The #1
+   "this is a website" tell on mobile is highlighting random text when you
+   try to tap or scroll — killing it here makes everything feel native. */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+input, textarea, [contenteditable="true"], .selectable, .selectable * {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Posters and inline images: no "Save image" / "Open in new tab" popup
+   when the user holds their finger on a card. */
+img {
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Kill the iOS/Android grey tap flash globally — affects only the highlight, safe for text. */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Disable callout / long-press menu only on interactive non-text controls so
+   text selection, copy / paste and link previews still work normally. */
+button,
+a[role="button"],
+[role="button"] {
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+/* Note: previously this rule added `-webkit-overflow-scrolling: touch`
+   and `overscroll-behavior: contain` to .hide-scrollbar / .custom-scrollbar
+   / .scrollable for "iOS-style momentum scrolling". On the horizontal
+   carousel rows (.hide-scrollbar) the `contain` value also blocked
+   vertical-swipe propagation from the row up to the page on Android,
+   making the slider area feel touch-locked for vertical scroll.
+   Removed — modern iOS already does momentum scrolling natively. */
+
+#root {
+  min-height: 100vh;
+}
+
+/* ───────── Motion utilities ───────── */
+.motion-fast { transition-duration: var(--motion-fast); transition-timing-function: var(--motion-ease-out); }
+.motion-base { transition-duration: var(--motion-base); transition-timing-function: var(--motion-ease-out); }
+.motion-slow { transition-duration: var(--motion-slow); transition-timing-function: var(--motion-ease-out); }
+
+.fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Lightweight poster fade-in: opacity + tiny scale only, ~280ms ease-out.
+   The blur(6px) filter pass was removed — it caused jank on mobile GPUs
+   when many posters appeared during scroll. Pure compositor properties now. */
+.poster-fade-in {
+  animation: posterFadeIn 340ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes posterFadeIn {
+  from { opacity: 0; transform: scale(1.01); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ───────── Scrollbars ───────── */
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+.custom-scrollbar { scrollbar-width: thin; scrollbar-color: #4b5563 #1f2937; }
+.custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #1f2937; border-radius: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: #4b5563; border-radius: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #6b7280; }
+
+/* ───────── Genre items ───────── */
+@media (max-width: 640px) { .genre-item { white-space: nowrap; } }
+@media (min-width: 640px) { .genre-item { white-space: normal; } }
+.scrollable { position: relative; overflow-y: auto; }
+.genre-item { outline: none; caret-color: transparent; }
+.genre-item:focus { outline: 2px solid #8b5cf6; caret-color: transparent; }
+
+/* ───────── SmartPlayer chrome resets ───────── */
+.smart-player-root,
+.smart-player-root .smart-player-fill,
+.smart-player-root media-player,
+.smart-player-root [data-media-player] { background: #000 !important; }
+
+.smart-player-root media-player[data-controls="false"] [data-media-controls],
+.smart-player-root media-player:not([data-controls]) [data-media-controls] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 200ms ease;
+}
+.smart-player-root media-player[data-controls] [data-media-controls] {
+  transition: opacity 200ms ease;
+}
+.smart-player-root video { background: #000 !important; }
+
+.smart-player-fill media-player,
+.smart-player-fill video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+.smart-player-fill [data-media-player] { width: 100% !important; height: 100% !important; }
+
+:fullscreen .smart-player-fill,
+:-webkit-full-screen .smart-player-fill {
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+/* Generous bottom padding ensures the Vidstack control bar (scrubber +
+   play/pause + fullscreen) is always fully visible, even when the player
+   container's 100dvh is taller than the actually visible viewport on
+   Android/iOS WebViews (a common cause of "half-cut controls"). */
+.smart-player-fill [data-media-player] [data-media-controls] {
+  padding-bottom: max(2.75rem, env(safe-area-inset-bottom, 0px)) !important;
+  padding-left: max(0.75rem, env(safe-area-inset-left, 0px)) !important;
+  padding-right: max(0.75rem, env(safe-area-inset-right, 0px)) !important;
+  box-sizing: border-box !important;
+}
+:fullscreen .smart-player-fill [data-media-player] [data-media-controls],
+:-webkit-full-screen .smart-player-fill [data-media-player] [data-media-controls] {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)) !important;
+  padding-left: max(0.75rem, env(safe-area-inset-left, 0px)) !important;
+  padding-right: max(0.75rem, env(safe-area-inset-right, 0px)) !important;
+}
+.smart-player-fill media-player::part(controls) { bottom: 0 !important; }
+
+/* ───────── Card hover lift (desktop only) ───────── */
+.card-hover-lift {
+  transition: transform 200ms ease;
+  /* No `will-change`: with hundreds of cards on screen, an always-on layer
+     hint creates layer-explosion that stalls scrolling. The browser
+     promotes on demand during :hover/:active. */
+}
+@media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
+  .card-hover-lift:hover { transform: translateY(-4px) scale(1.04); }
+}
+@media (pointer: coarse), (hover: none) {
+  .card-hover-lift,
+  .card-hover-lift:hover,
+  .card-hover-lift:focus,
+  .card-hover-lift:active {
+    transform: none !important;
+  }
+}
+
+/* ───────── Card press feedback (touch) ───────── */
+.pcw-card {
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* No `will-change` here either — see `.card-hover-lift` rationale above. */
+
+  /* Skip rendering work entirely for cards that are off-screen. With 50+
+     cards in a grid this is the single biggest scroll-smoothness win on
+     low-end mobiles: the browser only paints cards that are near the
+     viewport. `contain-intrinsic-size` tells the layout engine the
+     reserved size so off-screen cards don't cause layout shift when they
+     come into view. The width is fluid (grid column), so we only fix the
+     intrinsic *height* — aspect-ratio takes care of the poster, plus the
+     ~46px title strip below. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pcw-card:hover {
+    transform: translate3d(0, -3px, 0);
+    transition-duration: 180ms;
+  }
+}
+.pcw-card:active {
+  transform: scale(0.965);
+  transition-duration: 90ms;
+}
+
+/* ───────── Top route progress bar ───────── */
+.route-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ef4444, #f59e0b, #ef4444);
+  background-size: 200% 100%;
+  z-index: 100;
+  transform-origin: left;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+  animation: routeProgressShine 1.4s ease-in-out infinite;
+}
+@keyframes routeProgressShine {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+/* ───────── View Transitions API (iOS Safari 18+, Chrome) ───────── */
+@supports (view-transition-name: a) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  ::view-transition-old(root) {
+    animation-name: vt-fade-out;
+  }
+  ::view-transition-new(root) {
+    animation-name: vt-fade-in;
+  }
+  /* Shared poster element: smooth morph from card thumbnail to detail hero */
+  ::view-transition-group(*) {
+    animation-duration: 380ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  ::view-transition-image-pair(*) {
+    isolation: auto;
+  }
+}
+@keyframes vt-fade-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.985); }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; transform: scale(1.012); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ───────── Bottom sheet (mobile auth, etc.) ───────── */
+.bottom-sheet-handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  margin: 6px auto 12px;
+}
+
+/* ───────── Reduced motion: respect user preference ───────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .poster-fade-in,
+  .route-progress {
+    animation: none !important;
+  }
+}

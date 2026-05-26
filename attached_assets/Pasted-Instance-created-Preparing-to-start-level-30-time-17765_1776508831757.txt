@@ -1,0 +1,108 @@
+Instance created. Preparing to start...
+{"level":30,"time":1776508654419,"pid":1,"hostname":"1f70283b","publicDir":"/app/artifacts/api-server/dist/public","msg":"Serving static frontend from dist/public"}
+{"level":30,"time":1776508654424,"pid":1,"hostname":"1f70283b","port":80,"msg":"Server listening"}
+{"level":30,"time":1776508654486,"pid":1,"hostname":"1f70283b","streamProxy":"https://popcorntv-koyeb-stream-proxy.popcorntv-proxy.workers.dev","msg":"Stream proxy: using external CF Worker"}
+{"level":30,"time":1776508654487,"pid":1,"hostname":"1f70283b","msg":"Direct API mode (USE_CF_PROXY is not true) — probing direct BFF access..."}
+{"level":30,"time":1776508654680,"pid":1,"hostname":"1f70283b","ip":"54.38.154.45","city":"Frankfurt am Main","region":"Hesse","country":"DE","org":"AS16276 OVH SAS","timezone":"Europe/Berlin","msg":"Server datacenter info"}
+{"level":30,"time":1776508654814,"pid":1,"hostname":"1f70283b","latency":"325ms","msg":"Direct BFF access probe OK — datacenter IP accepted"}
+{"level":30,"time":1776508655187,"pid":1,"hostname":"1f70283b","userId":"1716767300696557032","expiresIn":"90d","msg":"BFF email login successful"}
+{"level":30,"time":1776508655187,"pid":1,"hostname":"1f70283b","msg":"Auth token pre-warmed at startup"}
+Instance is healthy. All health checks are passing.
+{"level":30,"time":1776508688623,"pid":1,"hostname":"1f70283b","req":{"id":1,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":16,"msg":"request completed"}
+{"level":30,"time":1776508699528,"pid":1,"hostname":"1f70283b","req":{"id":2,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":20,"msg":"request completed"}
+{"level":30,"time":1776508699536,"pid":1,"hostname":"1f70283b","req":{"id":3,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":6,"msg":"request completed"}
+{"level":30,"time":1776508699538,"pid":1,"hostname":"1f70283b","req":{"id":4,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508699541,"pid":1,"hostname":"1f70283b","req":{"id":5,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508699766,"pid":1,"hostname":"1f70283b","req":{"id":6,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508701674,"pid":1,"hostname":"1f70283b","req":{"id":7,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776508701675,"pid":1,"hostname":"1f70283b","req":{"id":8,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508701677,"pid":1,"hostname":"1f70283b","req":{"id":9,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508701785,"pid":1,"hostname":"1f70283b","req":{"id":10,"method":"GET","url":"/"},"res":{"statusCode":304},"responseTime":3,"msg":"request completed"}
+{"level":30,"time":1776508702403,"pid":1,"hostname":"1f70283b","req":{"id":11,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508702660,"pid":1,"hostname":"1f70283b","req":{"id":12,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508704977,"pid":1,"hostname":"1f70283b","req":{"id":13,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776508705514,"pid":1,"hostname":"1f70283b","subjectId":"7259626723095336576","type":"movie","se":0,"ep":0,"msg":"mb-stream: resolving stream"}
+{"level":30,"time":1776508705515,"pid":1,"hostname":"1f70283b","subjectId":"7259626723095336576","se":0,"ep":0,"msg":"mb-stream: trying H5 play (primary)"}
+{"level":30,"time":1776508705553,"pid":1,"hostname":"1f70283b","subjectId":"7259626723095336576","se":0,"ep":0,"count":3,"msg":"MovieBox: H5 play endpoint returned streams"}
+{"level":30,"time":1776508706006,"pid":1,"hostname":"1f70283b","subjectId":"7259626723095336576","type":"movie","se":0,"ep":0,"msg":"mb-stream: resolving stream"}
+{"level":30,"time":1776508706006,"pid":1,"hostname":"1f70283b","subjectId":"7259626723095336576","se":0,"ep":0,"msg":"mb-stream: trying H5 play (primary)"}
+{"level":30,"time":1776508706023,"pid":1,"hostname":"1f70283b","subjectId":"7259626723095336576","se":0,"ep":0,"count":3,"msg":"MovieBox: H5 play endpoint returned streams"}
+{"level":30,"time":1776508706026,"pid":1,"hostname":"1f70283b","subjectId":"7259626723095336576","source":"h5-play","streams":3,"dubs":2,"msg":"mb-stream: resolved via H5 play"}
+{"level":30,"time":1776508706027,"pid":1,"hostname":"1f70283b","req":{"id":14,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":515,"msg":"request completed"}
+{"level":30,"time":1776508706230,"pid":1,"hostname":"1f70283b","subjectId":"7259626723095336576","source":"h5-play","streams":3,"dubs":2,"msg":"mb-stream: resolved via H5 play"}
+{"level":30,"time":1776508706231,"pid":1,"hostname":"1f70283b","req":{"id":15,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":225,"msg":"request completed"}
+{"level":30,"time":1776508706637,"pid":1,"hostname":"1f70283b","subjectId":"7259626723095336576","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776508706640,"pid":1,"hostname":"1f70283b","req":{"id":17,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508706643,"pid":1,"hostname":"1f70283b","req":{"id":18,"method":"GET","url":"/movies/watch/dhurandhar-the-revenge-7259626723095336576"},"res":{"statusCode":304},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776508706670,"pid":1,"hostname":"1f70283b","title":"Dhurandhar The Revenge","year":"2026","type":"movie","hasDubs":2,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776508706670,"pid":1,"hostname":"1f70283b","title":"Dhurandhar The Revenge","probing":9,"existing":2,"msg":"lang-probe: starting probes"}
+{"level":30,"time":1776508707210,"pid":1,"hostname":"1f70283b","req":{"id":19,"method":"GET","url":"/api/stream/mb-subtitles"},"res":{"statusCode":304},"responseTime":10,"msg":"request completed"}
+{"level":30,"time":1776508707297,"pid":1,"hostname":"1f70283b","title":"Dhurandhar The Revenge","probed":9,"discovered":0,"total":2,"msg":"lang-probe: complete"}
+{"level":30,"time":1776508707298,"pid":1,"hostname":"1f70283b","dubCount":2,"msg":"mb-languages: skipping dub validation (play-info blocked from datacenter)"}
+{"level":30,"time":1776508707298,"pid":1,"hostname":"1f70283b","title":"Dhurandhar The Revenge","totalDubs":2,"probed":2,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776508707298,"pid":1,"hostname":"1f70283b","req":{"id":16,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":304},"responseTime":661,"msg":"request completed"}
+{"level":30,"time":1776508707595,"pid":1,"hostname":"1f70283b","req":{"id":20,"method":"GET","url":"/api/stream/mb-resource"},"res":{"statusCode":200},"responseTime":175,"msg":"request completed"}
+{"level":30,"time":1776508709688,"pid":1,"hostname":"1f70283b","subjectId":"568731759475578184","msg":"mb-play: resolving language variant"}
+{"level":50,"time":1776508709731,"pid":1,"hostname":"1f70283b","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"568731759475578184","msg":"BFF play-info error"}
+{"level":40,"time":1776508709732,"pid":1,"hostname":"1f70283b","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"568731759475578184","msg":"MovieBox: BFF play-info failed, will try H5"}
+{"level":30,"time":1776508709748,"pid":1,"hostname":"1f70283b","subjectId":"568731759475578184","streams":2,"msg":"mb-play: resolved"}
+{"level":30,"time":1776508709749,"pid":1,"hostname":"1f70283b","req":{"id":21,"method":"GET","url":"/api/stream/mb-play"},"res":{"statusCode":200},"responseTime":61,"msg":"request completed"}
+{"level":30,"time":1776508737707,"pid":1,"hostname":"1f70283b","req":{"id":22,"method":"GET","url":"/assets/Series-CjVkjvr4.js"},"res":{"statusCode":200},"responseTime":3,"msg":"request completed"}
+{"level":30,"time":1776508737972,"pid":1,"hostname":"1f70283b","req":{"id":23,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776508741005,"pid":1,"hostname":"1f70283b","req":{"id":24,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776508741007,"pid":1,"hostname":"1f70283b","req":{"id":25,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508741646,"pid":1,"hostname":"1f70283b","subjectId":"6207982430134357800","type":"tv","se":1,"ep":1,"msg":"mb-stream: resolving stream"}
+{"level":30,"time":1776508741647,"pid":1,"hostname":"1f70283b","subjectId":"6207982430134357800","se":1,"ep":1,"msg":"mb-stream: trying H5 play (primary)"}
+{"level":30,"time":1776508741702,"pid":1,"hostname":"1f70283b","subjectId":"6207982430134357800","se":1,"ep":1,"count":4,"msg":"MovieBox: H5 play endpoint returned streams"}
+{"level":30,"time":1776508741824,"pid":1,"hostname":"1f70283b","subjectId":"6207982430134357800","source":"h5-play","streams":4,"dubs":12,"msg":"mb-stream: resolved via H5 play"}
+{"level":30,"time":1776508741825,"pid":1,"hostname":"1f70283b","req":{"id":26,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":181,"msg":"request completed"}
+{"level":30,"time":1776508742170,"pid":1,"hostname":"1f70283b","req":{"id":27,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508742171,"pid":1,"hostname":"1f70283b","subjectId":"6207982430134357800","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776508742173,"pid":1,"hostname":"1f70283b","subjectId":"1382465867459478920","season":"1","episode":"1","msg":"mb-play: resolving language variant"}
+{"level":30,"time":1776508742187,"pid":1,"hostname":"1f70283b","title":"Breaking Bad S1E1","year":"2008","type":"tv","season":"1","episode":"1","hasDubs":12,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776508742187,"pid":1,"hostname":"1f70283b","title":"Breaking Bad","probing":5,"existing":9,"msg":"lang-probe: starting probes"}
+{"level":50,"time":1776508742401,"pid":1,"hostname":"1f70283b","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"1382465867459478920","msg":"BFF play-info error"}
+{"level":40,"time":1776508742401,"pid":1,"hostname":"1f70283b","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"1382465867459478920","msg":"MovieBox: BFF play-info failed, will try H5"}
+{"level":30,"time":1776508742418,"pid":1,"hostname":"1f70283b","subjectId":"1382465867459478920","streams":4,"msg":"mb-play: resolved"}
+{"level":30,"time":1776508742419,"pid":1,"hostname":"1f70283b","req":{"id":29,"method":"GET","url":"/api/stream/mb-play"},"res":{"statusCode":200},"responseTime":246,"msg":"request completed"}
+{"level":30,"time":1776508742436,"pid":1,"hostname":"1f70283b","req":{"id":30,"method":"GET","url":"/series/watch/breaking-bad-6207982430134357800"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776508743118,"pid":1,"hostname":"1f70283b","req":{"id":31,"method":"GET","url":"/api/stream/mb-subtitles"},"res":{"statusCode":200},"responseTime":18,"msg":"request completed"}
+{"level":30,"time":1776508743263,"pid":1,"hostname":"1f70283b","title":"Breaking Bad","probed":5,"discovered":0,"total":9,"msg":"lang-probe: complete"}
+{"level":30,"time":1776508743263,"pid":1,"hostname":"1f70283b","dubCount":12,"msg":"mb-languages: skipping dub validation (play-info blocked from datacenter)"}
+{"level":30,"time":1776508743263,"pid":1,"hostname":"1f70283b","title":"Breaking Bad S1E1","totalDubs":12,"probed":9,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776508743264,"pid":1,"hostname":"1f70283b","req":{"id":28,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":200},"responseTime":1093,"msg":"request completed"}
+{"level":30,"time":1776508744030,"pid":1,"hostname":"1f70283b","req":{"id":32,"method":"GET","url":"/api/stream/mb-resource"},"res":{"statusCode":200},"responseTime":346,"msg":"request completed"}
+{"level":30,"time":1776508771923,"pid":1,"hostname":"1f70283b","req":{"id":33,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508771930,"pid":1,"hostname":"1f70283b","req":{"id":34,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508771931,"pid":1,"hostname":"1f70283b","req":{"id":35,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":0,"msg":"request completed"}
+{"level":30,"time":1776508771932,"pid":1,"hostname":"1f70283b","req":{"id":36,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":0,"msg":"request completed"}
+{"level":30,"time":1776508772382,"pid":1,"hostname":"1f70283b","req":{"id":37,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508774089,"pid":1,"hostname":"1f70283b","req":{"id":38,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508774090,"pid":1,"hostname":"1f70283b","req":{"id":39,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508774091,"pid":1,"hostname":"1f70283b","req":{"id":40,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508776769,"pid":1,"hostname":"1f70283b","req":{"id":41,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508776770,"pid":1,"hostname":"1f70283b","req":{"id":42,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508777486,"pid":1,"hostname":"1f70283b","subjectId":"4830273202448466064","type":"tv","se":1,"ep":1,"msg":"mb-stream: resolving stream"}
+{"level":30,"time":1776508777486,"pid":1,"hostname":"1f70283b","subjectId":"4830273202448466064","se":1,"ep":1,"msg":"mb-stream: trying H5 play (primary)"}
+{"level":30,"time":1776508777521,"pid":1,"hostname":"1f70283b","subjectId":"4830273202448466064","se":1,"ep":1,"count":2,"msg":"MovieBox: H5 play endpoint returned streams"}
+{"level":30,"time":1776508777648,"pid":1,"hostname":"1f70283b","subjectId":"4830273202448466064","source":"h5-play","streams":2,"dubs":17,"msg":"mb-stream: resolved via H5 play"}
+{"level":30,"time":1776508777701,"pid":1,"hostname":"1f70283b","req":{"id":43,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":215,"msg":"request completed"}
+{"level":30,"time":1776508778086,"pid":1,"hostname":"1f70283b","req":{"id":44,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508778087,"pid":1,"hostname":"1f70283b","subjectId":"4830273202448466064","cacheKey":"tv:4830273202448466064:1:1","msg":"mb-stream: serving from cache"}
+{"level":30,"time":1776508778088,"pid":1,"hostname":"1f70283b","req":{"id":45,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508778445,"pid":1,"hostname":"1f70283b","subjectId":"4830273202448466064","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776508778452,"pid":1,"hostname":"1f70283b","subjectId":"4830273202448466064","season":"1","episode":"1","msg":"mb-play: resolving language variant"}
+{"level":30,"time":1776508778502,"pid":1,"hostname":"1f70283b","title":"The Boys [Hindi] S1E1","year":"2024","type":"tv","season":"1","episode":"1","hasDubs":17,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776508778503,"pid":1,"hostname":"1f70283b","title":"The Boys [Hindi]","probing":3,"existing":14,"msg":"lang-probe: starting probes"}
+{"level":50,"time":1776508778610,"pid":1,"hostname":"1f70283b","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"4830273202448466064","msg":"BFF play-info error"}
+{"level":40,"time":1776508778610,"pid":1,"hostname":"1f70283b","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"4830273202448466064","msg":"MovieBox: BFF play-info failed, will try H5"}
+{"level":30,"time":1776508778645,"pid":1,"hostname":"1f70283b","subjectId":"4830273202448466064","streams":2,"msg":"mb-play: resolved"}
+{"level":30,"time":1776508778646,"pid":1,"hostname":"1f70283b","req":{"id":47,"method":"GET","url":"/api/stream/mb-play"},"res":{"statusCode":200},"responseTime":194,"msg":"request completed"}
+{"level":30,"time":1776508778731,"pid":1,"hostname":"1f70283b","req":{"id":48,"method":"GET","url":"/api/stream/mb-subtitles"},"res":{"statusCode":200},"responseTime":7,"msg":"request completed"}
+{"level":30,"time":1776508779199,"pid":1,"hostname":"1f70283b","req":{"id":50,"method":"GET","url":"/series/watch/the-boys-hindi-4830273202448466064"},"res":{"statusCode":200},"responseTime":4,"msg":"request completed"}
+{"level":30,"time":1776508779240,"pid":1,"hostname":"1f70283b","title":"The Boys [Hindi]","probed":3,"discovered":0,"total":14,"msg":"lang-probe: complete"}
+{"level":30,"time":1776508779242,"pid":1,"hostname":"1f70283b","dubCount":17,"msg":"mb-languages: skipping dub validation (play-info blocked from datacenter)"}
+{"level":30,"time":1776508779242,"pid":1,"hostname":"1f70283b","title":"The Boys [Hindi] S1E1","totalDubs":17,"probed":14,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776508779242,"pid":1,"hostname":"1f70283b","req":{"id":46,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":200},"responseTime":797,"msg":"request completed"}
+{"level":30,"time":1776508779646,"pid":1,"hostname":"1f70283b","req":{"id":49,"method":"GET","url":"/api/stream/mb-resource"},"res":{"statusCode":200},"responseTime":646,"msg":"request completed"}
+{"level":30,"time":1776508815903,"pid":1,"hostname":"1f70283b","req":{"id":51,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}

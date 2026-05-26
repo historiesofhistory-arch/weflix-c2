@@ -1,0 +1,100 @@
+{"level":30,"time":1776508181747,"pid":1,"hostname":"73f6e3bd","req":{"id":164,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":304},"responseTime":831,"msg":"request completed"}
+{"level":30,"time":1776508182064,"pid":1,"hostname":"73f6e3bd","req":{"id":168,"method":"GET","url":"/api/stream/mb-resource"},"res":{"statusCode":200},"responseTime":226,"msg":"request completed"}
+{"level":30,"time":1776508210875,"pid":1,"hostname":"73f6e3bd","req":{"id":169,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508210877,"pid":1,"hostname":"73f6e3bd","subjectId":"754828783454175184","type":"tv","se":4,"ep":2,"msg":"mb-stream: resolving stream"}
+{"level":30,"time":1776508210877,"pid":1,"hostname":"73f6e3bd","subjectId":"754828783454175184","se":4,"ep":2,"msg":"mb-stream: trying H5 play (primary)"}
+{"level":30,"time":1776508210882,"pid":1,"hostname":"73f6e3bd","subjectId":"8107592770010988912","season":"4","episode":"2","msg":"mb-play: resolving language variant"}
+{"level":30,"time":1776508210884,"pid":1,"hostname":"73f6e3bd","subjectId":"754828783454175184","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776508210947,"pid":1,"hostname":"73f6e3bd","subjectId":"754828783454175184","type":"tv","se":4,"ep":2,"msg":"mb-stream: resolving stream"}
+{"level":30,"time":1776508210948,"pid":1,"hostname":"73f6e3bd","subjectId":"754828783454175184","se":4,"ep":2,"msg":"mb-stream: trying H5 play (primary)"}
+{"level":30,"time":1776508210952,"pid":1,"hostname":"73f6e3bd","req":{"id":173,"method":"GET","url":"/series/watch/classroom-of-the-elite-754828783454175184"},"res":{"statusCode":200},"responseTime":67,"msg":"request completed"}
+{"level":30,"time":1776508211151,"pid":1,"hostname":"73f6e3bd","subjectId":"754828783454175184","se":4,"ep":2,"count":3,"msg":"MovieBox: H5 play endpoint returned streams"}
+{"level":30,"time":1776508211153,"pid":1,"hostname":"73f6e3bd","subjectId":"754828783454175184","se":4,"ep":2,"count":3,"msg":"MovieBox: H5 play endpoint returned streams"}
+{"level":30,"time":1776508211249,"pid":1,"hostname":"73f6e3bd","title":"Classroom of the Elite S4E2","year":"2017","type":"tv","season":"4","episode":"2","hasDubs":9,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776508211250,"pid":1,"hostname":"73f6e3bd","title":"Classroom of the Elite","probing":4,"existing":9,"msg":"lang-probe: starting probes"}
+{"level":50,"time":1776508211256,"pid":1,"hostname":"73f6e3bd","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"8107592770010988912","msg":"BFF play-info error"}
+{"level":40,"time":1776508211346,"pid":1,"hostname":"73f6e3bd","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"8107592770010988912","msg":"MovieBox: BFF play-info failed, will try H5"}
+{"level":30,"time":1776508211347,"pid":1,"hostname":"73f6e3bd","subjectId":"754828783454175184","source":"h5-play","streams":3,"dubs":9,"msg":"mb-stream: resolved via H5 play"}
+{"level":30,"time":1776508211348,"pid":1,"hostname":"73f6e3bd","req":{"id":170,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":471,"msg":"request completed"}
+{"level":30,"time":1776508211365,"pid":1,"hostname":"73f6e3bd","subjectId":"754828783454175184","source":"h5-play","streams":3,"dubs":9,"msg":"mb-stream: resolved via H5 play"}
+{"level":30,"time":1776508211366,"pid":1,"hostname":"73f6e3bd","req":{"id":174,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":419,"msg":"request completed"}
+{"level":30,"time":1776508211451,"pid":1,"hostname":"73f6e3bd","subjectId":"8107592770010988912","streams":3,"msg":"mb-play: resolved"}
+{"level":30,"time":1776508211451,"pid":1,"hostname":"73f6e3bd","req":{"id":171,"method":"GET","url":"/api/stream/mb-play"},"res":{"statusCode":200},"responseTime":569,"msg":"request completed"}
+{"level":30,"time":1776508211824,"pid":1,"hostname":"73f6e3bd","title":"Classroom of the Elite","probed":4,"discovered":0,"total":9,"msg":"lang-probe: complete"}
+{"level":30,"time":1776508211824,"pid":1,"hostname":"73f6e3bd","dubCount":9,"msg":"mb-languages: skipping dub validation (play-info blocked from datacenter)"}
+{"level":30,"time":1776508211824,"pid":1,"hostname":"73f6e3bd","title":"Classroom of the Elite S4E2","totalDubs":9,"probed":9,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776508211824,"pid":1,"hostname":"73f6e3bd","req":{"id":172,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":304},"responseTime":940,"msg":"request completed"}
+{"level":30,"time":1776508211916,"pid":1,"hostname":"73f6e3bd","req":{"id":175,"method":"GET","url":"/api/stream/mb-resource"},"res":{"statusCode":304},"responseTime":257,"msg":"request completed"}
+{"level":30,"time":1776508212019,"pid":1,"hostname":"73f6e3bd","subjectId":"754828783454175184","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776508212033,"pid":1,"hostname":"73f6e3bd","title":"Classroom of the Elite S4E2","year":"2017","type":"tv","season":"4","episode":"2","hasDubs":9,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776508212033,"pid":1,"hostname":"73f6e3bd","title":"Classroom of the Elite","probing":4,"existing":9,"msg":"lang-probe: starting probes"}
+{"level":30,"time":1776508212583,"pid":1,"hostname":"73f6e3bd","title":"Classroom of the Elite","probed":4,"discovered":0,"total":9,"msg":"lang-probe: complete"}
+{"level":30,"time":1776508212584,"pid":1,"hostname":"73f6e3bd","dubCount":9,"msg":"mb-languages: skipping dub validation (play-info blocked from datacenter)"}
+{"level":30,"time":1776508212584,"pid":1,"hostname":"73f6e3bd","title":"Classroom of the Elite S4E2","totalDubs":9,"probed":9,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776508212584,"pid":1,"hostname":"73f6e3bd","req":{"id":176,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":304},"responseTime":565,"msg":"request completed"}
+{"level":30,"time":1776508223338,"pid":1,"hostname":"73f6e3bd","req":{"id":177,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508244235,"pid":1,"hostname":"73f6e3bd","subjectId":"8107592770010988912","season":"4","episode":"2","msg":"mb-play: resolving language variant"}
+{"level":50,"time":1776508244346,"pid":1,"hostname":"73f6e3bd","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"8107592770010988912","msg":"BFF play-info error"}
+{"level":40,"time":1776508244346,"pid":1,"hostname":"73f6e3bd","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"8107592770010988912","msg":"MovieBox: BFF play-info failed, will try H5"}
+{"level":30,"time":1776508244413,"pid":1,"hostname":"73f6e3bd","subjectId":"8107592770010988912","streams":3,"msg":"mb-play: resolved"}
+{"level":30,"time":1776508244414,"pid":1,"hostname":"73f6e3bd","req":{"id":178,"method":"GET","url":"/api/stream/mb-play"},"res":{"statusCode":200},"responseTime":180,"msg":"request completed"}
+{"level":30,"time":1776508263845,"pid":1,"hostname":"73f6e3bd","subjectId":"8740232437575336320","season":"4","episode":"2","msg":"mb-play: resolving language variant"}
+{"level":50,"time":1776508263890,"pid":1,"hostname":"73f6e3bd","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"8740232437575336320","msg":"BFF play-info error"}
+{"level":40,"time":1776508263891,"pid":1,"hostname":"73f6e3bd","err":"Error: BFF auth request returned 406 for /wefeed-mobile-bff/subject-api/play-info: {\"code\":406,\"reason\":\"Not Acceptable\",\"message\":\"find no content\",\"metadata\":{}}","subjectId":"8740232437575336320","msg":"MovieBox: BFF play-info failed, will try H5"}
+{"level":30,"time":1776508264184,"pid":1,"hostname":"73f6e3bd","subjectId":"8740232437575336320","absoluteEp":40,"totalEps":38,"tmdbSeason":4,"tmdbEpisode":2,"msg":"MovieBox: episode beyond total episode count"}
+{"level":40,"time":1776508264184,"pid":1,"hostname":"73f6e3bd","subjectId":"8740232437575336320","season":"4","episode":"2","msg":"mb-play: no streams found"}
+{"level":30,"time":1776508264185,"pid":1,"hostname":"73f6e3bd","req":{"id":179,"method":"GET","url":"/api/stream/mb-play"},"res":{"statusCode":404},"responseTime":340,"msg":"request completed"}
+{"level":30,"time":1776508266844,"pid":1,"hostname":"73f6e3bd","req":{"id":180,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1776508267172,"pid":1,"hostname":"73f6e3bd","req":{"id":181,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508270212,"pid":1,"hostname":"73f6e3bd","req":{"id":182,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":0,"msg":"request completed"}
+{"level":30,"time":1776508270889,"pid":1,"hostname":"73f6e3bd","subjectId":"5525928234505881624","type":"movie","se":0,"ep":0,"msg":"mb-stream: resolving stream"}
+{"level":30,"time":1776508270889,"pid":1,"hostname":"73f6e3bd","subjectId":"5525928234505881624","se":0,"ep":0,"msg":"mb-stream: trying H5 play (primary)"}
+{"level":30,"time":1776508270947,"pid":1,"hostname":"73f6e3bd","subjectId":"5525928234505881624","se":0,"ep":0,"count":1,"msg":"MovieBox: H5 play endpoint returned streams"}
+{"level":30,"time":1776508271480,"pid":1,"hostname":"73f6e3bd","subjectId":"5525928234505881624","source":"h5-play","streams":1,"dubs":3,"msg":"mb-stream: resolved via H5 play"}
+{"level":30,"time":1776508271481,"pid":1,"hostname":"73f6e3bd","req":{"id":183,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":592,"msg":"request completed"}
+{"level":30,"time":1776508271889,"pid":1,"hostname":"73f6e3bd","subjectId":"5525928234505881624","cacheKey":"movie:5525928234505881624:0:0","msg":"mb-stream: serving from cache"}
+{"level":30,"time":1776508271890,"pid":1,"hostname":"73f6e3bd","req":{"id":184,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":0,"msg":"request completed"}
+{"level":30,"time":1776508273210,"pid":1,"hostname":"73f6e3bd","subjectId":"5525928234505881624","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776508273213,"pid":1,"hostname":"73f6e3bd","req":{"id":186,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508273236,"pid":1,"hostname":"73f6e3bd","title":"Prathichaya[CAM] [Hindi]","year":"2026","type":"movie","hasDubs":3,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776508273236,"pid":1,"hostname":"73f6e3bd","title":"Prathichaya[CAM] [Hindi]","probing":9,"existing":3,"msg":"lang-probe: starting probes"}
+{"level":30,"time":1776508273353,"pid":1,"hostname":"73f6e3bd","req":{"id":187,"method":"GET","url":"/movies/watch/prathichayacam-hindi-5525928234505881624"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508275149,"pid":1,"hostname":"73f6e3bd","req":{"id":188,"method":"GET","url":"/api/stream/mb-subtitles"},"res":{"statusCode":200},"responseTime":799,"msg":"request completed"}
+{"level":30,"time":1776508275423,"pid":1,"hostname":"73f6e3bd","title":"Prathichaya[CAM] [Hindi]","probed":9,"discovered":0,"total":3,"msg":"lang-probe: complete"}
+{"level":30,"time":1776508275423,"pid":1,"hostname":"73f6e3bd","dubCount":3,"msg":"mb-languages: skipping dub validation (play-info blocked from datacenter)"}
+{"level":30,"time":1776508275423,"pid":1,"hostname":"73f6e3bd","title":"Prathichaya[CAM] [Hindi]","totalDubs":3,"probed":3,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776508275424,"pid":1,"hostname":"73f6e3bd","req":{"id":185,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":200},"responseTime":2214,"msg":"request completed"}
+{"level":30,"time":1776508275528,"pid":1,"hostname":"73f6e3bd","req":{"id":189,"method":"GET","url":"/api/stream/mb-resource"},"res":{"statusCode":200},"responseTime":159,"msg":"request completed"}
+{"level":30,"time":1776508289609,"pid":1,"hostname":"73f6e3bd","req":{"id":190,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508289812,"pid":1,"hostname":"73f6e3bd","req":{"id":191,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508296161,"pid":1,"hostname":"73f6e3bd","req":{"id":192,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508298876,"pid":1,"hostname":"73f6e3bd","req":{"id":193,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508303023,"pid":1,"hostname":"73f6e3bd","req":{"id":194,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508303593,"pid":1,"hostname":"73f6e3bd","req":{"id":195,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508305025,"pid":1,"hostname":"73f6e3bd","req":{"id":196,"method":"POST","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508306989,"pid":1,"hostname":"73f6e3bd","req":{"id":197,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508309600,"pid":1,"hostname":"73f6e3bd","subjectId":"7259626723095336576","type":"movie","se":0,"ep":0,"msg":"mb-stream: resolving stream"}
+{"level":30,"time":1776508309600,"pid":1,"hostname":"73f6e3bd","subjectId":"7259626723095336576","se":0,"ep":0,"msg":"mb-stream: trying H5 play (primary)"}
+{"level":30,"time":1776508309648,"pid":1,"hostname":"73f6e3bd","subjectId":"7259626723095336576","se":0,"ep":0,"count":3,"msg":"MovieBox: H5 play endpoint returned streams"}
+{"level":30,"time":1776508310263,"pid":1,"hostname":"73f6e3bd","subjectId":"7259626723095336576","source":"h5-play","streams":3,"dubs":2,"msg":"mb-stream: resolved via H5 play"}
+{"level":30,"time":1776508310263,"pid":1,"hostname":"73f6e3bd","req":{"id":198,"method":"GET","url":"/api/stream/mb-stream"},"res":{"statusCode":200},"responseTime":663,"msg":"request completed"}
+{"level":30,"time":1776508311610,"pid":1,"hostname":"73f6e3bd","subjectId":"7259626723095336576","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776508311612,"pid":1,"hostname":"73f6e3bd","req":{"id":200,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508311629,"pid":1,"hostname":"73f6e3bd","title":"Dhurandhar The Revenge","year":"2026","type":"movie","hasDubs":2,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776508311629,"pid":1,"hostname":"73f6e3bd","title":"Dhurandhar The Revenge","probing":9,"existing":2,"msg":"lang-probe: starting probes"}
+{"level":30,"time":1776508312151,"pid":1,"hostname":"73f6e3bd","req":{"id":201,"method":"GET","url":"/movies/watch/dhurandhar-the-revenge-7259626723095336576"},"res":{"statusCode":200},"responseTime":98,"msg":"request completed"}
+{"level":30,"time":1776508313233,"pid":1,"hostname":"73f6e3bd","title":"Dhurandhar The Revenge","probed":9,"discovered":0,"total":2,"msg":"lang-probe: complete"}
+{"level":30,"time":1776508313234,"pid":1,"hostname":"73f6e3bd","dubCount":2,"msg":"mb-languages: skipping dub validation (play-info blocked from datacenter)"}
+{"level":30,"time":1776508313234,"pid":1,"hostname":"73f6e3bd","title":"Dhurandhar The Revenge","totalDubs":2,"probed":2,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776508313234,"pid":1,"hostname":"73f6e3bd","req":{"id":199,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":200},"responseTime":1624,"msg":"request completed"}
+{"level":30,"time":1776508313892,"pid":1,"hostname":"73f6e3bd","req":{"id":202,"method":"GET","url":"/api/stream/mb-subtitles"},"res":{"statusCode":200},"responseTime":7,"msg":"request completed"}
+{"level":30,"time":1776508314416,"pid":1,"hostname":"73f6e3bd","req":{"id":203,"method":"GET","url":"/api/stream/mb-resource"},"res":{"statusCode":200},"responseTime":328,"msg":"request completed"}
+{"level":30,"time":1776508328526,"pid":1,"hostname":"73f6e3bd","req":{"id":204,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1776508329944,"pid":1,"hostname":"73f6e3bd","subjectId":"7259626723095336576","msg":"mb-languages: fetching dubs from subjectId"}
+{"level":30,"time":1776508329947,"pid":1,"hostname":"73f6e3bd","req":{"id":206,"method":"GET","url":"/api/bff-sign"},"res":{"statusCode":200},"responseTime":0,"msg":"request completed"}
+{"level":30,"time":1776508329990,"pid":1,"hostname":"73f6e3bd","title":"Dhurandhar The Revenge","year":"2026","type":"movie","hasDubs":2,"msg":"mb-languages: probing for additional languages"}
+{"level":30,"time":1776508329990,"pid":1,"hostname":"73f6e3bd","title":"Dhurandhar The Revenge","probing":9,"existing":2,"msg":"lang-probe: starting probes"}
+{"level":30,"time":1776508331262,"pid":1,"hostname":"73f6e3bd","title":"Dhurandhar The Revenge","probed":9,"discovered":0,"total":2,"msg":"lang-probe: complete"}
+{"level":30,"time":1776508331262,"pid":1,"hostname":"73f6e3bd","dubCount":2,"msg":"mb-languages: skipping dub validation (play-info blocked from datacenter)"}
+{"level":30,"time":1776508331262,"pid":1,"hostname":"73f6e3bd","title":"Dhurandhar The Revenge","totalDubs":2,"probed":2,"msg":"mb-languages: merged probe results"}
+{"level":30,"time":1776508331263,"pid":1,"hostname":"73f6e3bd","req":{"id":205,"method":"GET","url":"/api/stream/mb-languages"},"res":{"statusCode":304},"responseTime":1319,"msg":"request completed"}
