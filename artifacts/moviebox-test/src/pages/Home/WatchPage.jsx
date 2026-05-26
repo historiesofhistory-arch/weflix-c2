@@ -544,18 +544,44 @@ const WatchPage = ({ type }) => {
 
       <div className="w-full aspect-video bg-black relative overflow-hidden">
         {streamLoading && !streamData && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#0a0a0a]">
-            {coverUrl && (
-              <img
-                src={coverUrl}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover opacity-10"
-              />
-            )}
-            <div className="relative z-10 flex flex-col items-center gap-3">
-              <div className="w-12 h-12 rounded-full border-2 border-red-600 border-t-transparent animate-spin" />
-              <span className="text-gray-400 text-sm">Loading stream…</span>
+          <div className="absolute inset-0">
+            {/* Slim red progress bar at very top */}
+            <div className="absolute top-0 left-0 right-0 h-0.5 z-20 overflow-hidden bg-white/5">
+              <div className="h-full bg-red-600 animate-[loading-bar_1.8s_ease-in-out_infinite]" />
             </div>
+
+            {coverUrl ? (
+              <>
+                <img
+                  src={coverUrl}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* cinematic gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50" />
+              </>
+            ) : (
+              <div className="absolute inset-0 bg-[#0a0a0a]" />
+            )}
+
+            {/* Pulsing play button */}
+            <div className="absolute inset-0 flex items-center justify-center z-10">
+              <div className="relative flex items-center justify-center w-16 h-16">
+                <div className="absolute inset-0 rounded-full bg-red-600/30 animate-ping" />
+                <div className="relative w-14 h-14 rounded-full bg-black/60 border-2 border-white/20 backdrop-blur-sm flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" fill="white" className="w-6 h-6 ml-1 opacity-80">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Title at bottom if available */}
+            {detail && (
+              <div className="absolute bottom-0 left-0 right-0 px-4 pb-3 z-10">
+                <p className="text-white/70 text-xs font-medium truncate">{playerTitle || detail.title}</p>
+              </div>
+            )}
           </div>
         )}
 
