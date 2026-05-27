@@ -96,26 +96,10 @@ function BottomSheet({ open, onClose, title, count, children }) {
   );
 }
 
-const EpisodeBtn = memo(function EpisodeBtn({ ep, active, onSelect }) {
-  return (
-    <button
-      onClick={() => onSelect(ep.episode_number)}
-      className={`w-14 h-10 rounded-lg text-sm font-bold transition-all active:scale-95 flex items-center justify-center shrink-0 ${
-        active
-          ? "bg-red-600 text-white shadow-lg shadow-red-600/30"
-          : "bg-[#1e1e1e] text-gray-300 hover:bg-[#2a2a2a] hover:text-white border border-white/5 hover:border-white/20"
-      }`}
-    >
-      {String(ep.episode_number).padStart(2, "0")}
-    </button>
-  );
-});
-
 function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE }) {
   const totalEps = episodes.length;
   const blockCount = Math.ceil(totalEps / blockSize);
   const [activeBlock, setActiveBlock] = useState(0);
-  const [gotoVal, setGotoVal] = useState("");
 
   useEffect(() => {
     if (activeEpisode == null) return;
@@ -127,20 +111,7 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
   const blockEps = episodes.slice(blockStart, blockStart + blockSize);
   const firstNum = blockEps[0]?.episode_number;
   const lastNum = blockEps[blockEps.length - 1]?.episode_number;
-
-  const row1 = blockEps.filter((_, i) => i % 2 === 0);
-  const row2 = blockEps.filter((_, i) => i % 2 === 1);
-
-  const handleGoto = () => {
-    const n = parseInt(gotoVal, 10);
-    if (!n || n < 1) return;
-    const idx = episodes.findIndex((e) => e.episode_number === n);
-    if (idx >= 0) {
-      setActiveBlock(Math.floor(idx / blockSize));
-      onSelect(episodes[idx].episode_number);
-      setGotoVal("");
-    }
-  };
+  const numCols = Math.ceil(blockEps.length / 2);
 
   if (!episodes.length) return null;
 
@@ -161,74 +132,56 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
         </div>
       </div>
 
-      <div className="flex items-center gap-2 mb-3">
-        {blockCount > 1 && (
-          <div className="flex-1 overflow-x-auto scrollbar-hide">
-            <div className="flex gap-2 pb-1" style={{ width: "max-content" }}>
-              {Array.from({ length: blockCount }, (_, i) => {
-                const s = episodes[i * blockSize]?.episode_number;
-                const e = episodes[Math.min((i + 1) * blockSize - 1, totalEps - 1)]?.episode_number;
-                return (
-                  <button
-                    key={i}
-                    onClick={() => setActiveBlock(i)}
-                    className={`text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap transition-all ${
-                      activeBlock === i
-                        ? "bg-red-600 text-white"
-                        : "bg-[#1e1e1e] text-gray-400 border border-white/10 hover:text-white"
-                    }`}
-                  >
-                    {s}–{e}
-                  </button>
-                );
-              })}
-            </div>
+      {blockCount > 1 && (
+        <div className="overflow-x-auto scrollbar-hide mb-3">
+          <div className="flex gap-2 pb-1" style={{ width: "max-content" }}>
+            {Array.from({ length: blockCount }, (_, i) => {
+              const s = episodes[i * blockSize]?.episode_number;
+              const e = episodes[Math.min((i + 1) * blockSize - 1, totalEps - 1)]?.episode_number;
+              return (
+                <button
+                  key={i}
+                  onClick={() => setActiveBlock(i)}
+                  className={`text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap transition-all ${
+                    activeBlock === i
+                      ? "bg-red-600 text-white"
+                      : "bg-[#1e1e1e] text-gray-400 border border-white/10 hover:text-white"
+                  }`}
+                >
+                  {s}–{e}
+                </button>
+              );
+            })}
           </div>
-        )}
-        <div className="flex items-center gap-1.5 shrink-0 ml-auto">
-          <input
-            type="number"
-            min="1"
-            max={totalEps}
-            value={gotoVal}
-            onChange={(e) => setGotoVal(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleGoto()}
-            placeholder="Go to #"
-            className="w-20 px-2 py-1.5 rounded-lg bg-[#1e1e1e] border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-white/30 text-center"
-          />
-          <button
-            onClick={handleGoto}
-            className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all"
-          >
-            Go
-          </button>
         </div>
-      </div>
+      )}
 
       <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
-        <div className="flex flex-col gap-1.5" style={{ width: "max-content" }}>
-          <div className="flex gap-1.5">
-            {row1.map((ep) => (
-              <EpisodeBtn
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${numCols}, minmax(52px, 1fr))`,
+            gridTemplateRows: "auto auto",
+            gridAutoFlow: "column",
+            gap: "6px",
+          }}
+        >
+          {blockEps.map((ep) => {
+            const active = ep.episode_number === activeEpisode;
+            return (
+              <button
                 key={ep.episode_number}
-                ep={ep}
-                active={ep.episode_number === activeEpisode}
-                onSelect={onSelect}
-              />
-            ))}
-          </div>
-          {row2.length > 0 && (
-            <div className="flex gap-1.5">
-              {row2.map((ep) => (
-                <EpisodeBtn
-                  key={ep.episode_number}
-                  ep={ep}
-                  active={ep.episode_number === activeEpisode}
-                  onSelect={onSelect}
-                />
-              ))}
-            </div>
-          )}
+                onClick={() => onSelect(ep.episode_number)}
+                className={`h-10 rounded-lg text-sm font-bold transition-all active:scale-95 flex items-center justify-center ${
+                  active
+                    ? "bg-red-600 text-white shadow-lg shadow-red-600/30"
+                    : "bg-[#1e1e1e] text-gray-300 hover:bg-[#2a2a2a] hover:text-white border border-white/5 hover:border-white/20"
+                }`}
+              >
+                {String(ep.episode_number).padStart(2, "0")}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -479,9 +432,50 @@ const WatchPage = ({ type }) => {
     setEpisode(1);
   };
 
-  const handleDubSelect = (dub) => {
+  const parseSeasonsData = useCallback((seasonsData) => {
+    return (seasonsData?.seasons || [])
+      .map((s) => {
+        const epCount = s.maxEp || s.episodeCount || s.episodes?.length || 0;
+        const epList =
+          s.episodes?.length > 0
+            ? s.episodes.map((e, i) => ({
+                episode_number: e.episodeNumber ?? e.episode_number ?? i + 1,
+                name:
+                  e.name ||
+                  e.title ||
+                  `Episode ${e.episodeNumber ?? e.episode_number ?? i + 1}`,
+              }))
+            : Array.from({ length: epCount }, (_, i) => ({
+                episode_number: i + 1,
+                name: `Episode ${i + 1}`,
+              }));
+        return {
+          season_number: s.se != null ? s.se : s.seasonNumber,
+          episode_count: epList.length || epCount,
+          episodes: epList,
+        };
+      })
+      .filter((s) => s.season_number != null && s.episode_count > 0)
+      .sort((a, b) => a.season_number - b.season_number);
+  }, []);
+
+  const handleDubSelect = useCallback(async (dub) => {
     setActiveDubId(dub.subjectId);
-  };
+    if (type === "tv") {
+      try {
+        const seasonsData = await fetchMbSeasons(dub.subjectId).catch(() => ({ seasons: [] }));
+        const parsed = parseSeasonsData(seasonsData);
+        if (parsed.length > 0) {
+          setSeasons(parsed);
+          const validSeason = parsed.find((s) => s.season_number === season) || parsed[0];
+          if (validSeason) {
+            setSeason(validSeason.season_number);
+            setEpisode(1);
+          }
+        }
+      } catch {}
+    }
+  }, [type, season, parseSeasonsData]);
 
   const coverUrl = detail ? mbCoverUrl(detail.cover, 1280) || "" : "";
   const year = (detail?.releaseDate || "").slice(0, 4);

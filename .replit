@@ -75,7 +75,7 @@ CF_MOVIEBOX_PROXY_URL = "https://moviebox-proxy.moviebox-proxy.workers.dev"
 CF_MOVIEBOX_API_KEY = "wf_mb_2ac6ac4804631104720a773e93bef527"
 STREAM_PROXY_URL = "https://moviebox-proxy.moviebox-proxy.workers.dev/stream"
 SUBTITLE_PROXY_URL = "https://moviebox-proxy.moviebox-proxy.workers.dev/stream"
-USE_CF_PROXY = "true"
+USE_CF_PROXY = "false"
 
 [userenv.production]
 CF_STREAM_PROXY_URL = "https://weflix-stream-proxy.popcorntv-proxy.workers.dev/"
