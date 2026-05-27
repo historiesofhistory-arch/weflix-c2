@@ -401,12 +401,9 @@ const WatchPage = ({ type }) => {
   const videoSources = useMemo(() => {
     if (!streamData?.streams?.length) return [];
 
-    const proxyBase = streamData.proxyBase || "";
-    const proxied = (rawUrl) =>
-      proxyBase
-        ? `${proxyBase}?url=${encodeURIComponent(rawUrl)}`
-        : rawUrl;
-
+    // MP4 signed URLs (hakunaymatata CDN) work directly from the browser —
+    // no CF Worker proxy needed. Proxying every range request adds 100–300 ms
+    // of extra latency per chunk. Use direct CDN URLs for fast, smooth playback.
     const sorted = [...streamData.streams].sort((a, b) => {
       const qa = parseInt(a.quality || a.resolutions || a.resolution || 720, 10);
       const qb = parseInt(b.quality || b.resolutions || b.resolution || 720, 10);
@@ -416,10 +413,10 @@ const WatchPage = ({ type }) => {
     if (selectedQuality) {
       const match = sorted.find((s) => getQualityLabel(s) === selectedQuality);
       const src = match || sorted[0];
-      return [{ src: proxied(src.url), type: "video/mp4" }];
+      return [{ src: src.url, type: "video/mp4" }];
     }
 
-    return [{ src: proxied(sorted[0].url), type: "video/mp4" }];
+    return [{ src: sorted[0].url, type: "video/mp4" }];
   }, [streamData, selectedQuality]);
 
   const handleEpisodeSelect = (epNum) => {
@@ -460,22 +457,29 @@ const WatchPage = ({ type }) => {
   }, []);
 
   const handleDubSelect = useCallback(async (dub) => {
+    // 1. Switch the dub immediately — this triggers exactly ONE stream fetch via
+    //    the activeDubId useEffect. We must not call setEpisode/setSeason here
+    //    or they'd trigger extra fetches on top of it.
     setActiveDubId(dub.subjectId);
+
+    // 2. In parallel, re-fetch the episode list for this dub so the grid
+    //    shows the correct episode count for the selected audio track.
     if (type === "tv") {
       try {
         const seasonsData = await fetchMbSeasons(dub.subjectId).catch(() => ({ seasons: [] }));
         const parsed = parseSeasonsData(seasonsData);
         if (parsed.length > 0) {
           setSeasons(parsed);
-          const validSeason = parsed.find((s) => s.season_number === season) || parsed[0];
-          if (validSeason) {
-            setSeason(validSeason.season_number);
-            setEpisode(1);
+          // Only reset episode if current episode is out of range for this dub
+          const targetSeason = parsed.find((s) => s.season_number === season) || parsed[0];
+          if (targetSeason) {
+            const maxEp = targetSeason.episode_count;
+            if (episode > maxEp) setEpisode(1);
           }
         }
       } catch {}
     }
-  }, [type, season, parseSeasonsData]);
+  }, [type, season, episode, parseSeasonsData]);
 
   const coverUrl = detail ? mbCoverUrl(detail.cover, 1280) || "" : "";
   const year = (detail?.releaseDate || "").slice(0, 4);
