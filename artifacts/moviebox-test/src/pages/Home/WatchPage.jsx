@@ -133,35 +133,35 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
 
   return (
     <div className="animate-fadeIn">
-      <div className="mb-3">
-        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-0.5">
-          Episodes
-        </span>
-        <div className="flex items-baseline gap-2 flex-wrap">
+      {/* Header row */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-baseline gap-2">
           <span className="text-white font-bold text-base">Episode {activeEpisode}</span>
           <span className="text-gray-500 text-sm">/ {totalEps}</span>
-          {blockCount > 1 && (
-            <span className="text-[10px] font-bold text-gray-400 bg-[#1e1e1e] border border-white/10 px-2 py-0.5 rounded-md uppercase tracking-wide">
-              Block {firstNum}–{lastNum}
-            </span>
-          )}
         </div>
+        {blockCount > 1 && (
+          <span className="text-[10px] font-semibold text-red-400 bg-red-600/10 border border-red-600/25 px-2.5 py-1 rounded-full uppercase tracking-wide">
+            {firstNum}–{lastNum}
+          </span>
+        )}
       </div>
 
+      {/* Block range selector */}
       {blockCount > 1 && (
         <div className="overflow-x-auto scrollbar-hide mb-3">
-          <div className="flex gap-2 pb-1" style={{ width: "max-content" }}>
+          <div className="flex gap-1.5 pb-1" style={{ width: "max-content" }}>
             {Array.from({ length: blockCount }, (_, i) => {
               const s = episodes[i * blockSize]?.episode_number;
               const e = episodes[Math.min((i + 1) * blockSize - 1, totalEps - 1)]?.episode_number;
+              const isActive = activeBlock === i;
               return (
                 <button
                   key={i}
                   onClick={() => setActiveBlock(i)}
-                  className={`text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap transition-all ${
-                    activeBlock === i
-                      ? "bg-red-600 text-white"
-                      : "bg-[#1e1e1e] text-gray-400 border border-white/10 hover:text-white"
+                  className={`text-[11px] font-bold px-3 py-1.5 rounded-full whitespace-nowrap transition-all border ${
+                    isActive
+                      ? "bg-red-600 border-red-500 text-white shadow-md shadow-red-900/40"
+                      : "bg-transparent border-white/12 text-gray-400 hover:border-white/25 hover:text-white"
                   }`}
                 >
                   {s}–{e}
@@ -172,6 +172,7 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
         </div>
       )}
 
+      {/* Episode grid */}
       <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
         <div
           style={{
@@ -188,10 +189,10 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
               <button
                 key={ep.episode_number}
                 onClick={() => onSelect(ep.episode_number)}
-                className={`h-10 rounded-lg text-sm font-bold transition-all active:scale-95 flex items-center justify-center ${
+                className={`h-10 rounded-xl text-sm font-bold transition-all active:scale-95 flex items-center justify-center border ${
                   active
-                    ? "bg-red-600 text-white shadow-lg shadow-red-600/30"
-                    : "bg-[#1e1e1e] text-gray-300 hover:bg-[#2a2a2a] hover:text-white border border-white/5 hover:border-white/20"
+                    ? "bg-red-600 border-red-500 text-white shadow-lg shadow-red-900/50"
+                    : "bg-transparent border-white/12 text-gray-400 hover:border-white/30 hover:text-white"
                 }`}
               >
                 {String(ep.episode_number).padStart(2, "0")}
