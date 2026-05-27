@@ -116,6 +116,7 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
   const totalEps = episodes.length;
   const blockCount = Math.ceil(totalEps / blockSize);
   const [activeBlock, setActiveBlock] = useState(0);
+  const activeRef = useRef(null);
 
   useEffect(() => {
     if (activeEpisode == null) return;
@@ -123,21 +124,27 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
     if (idx >= 0) setActiveBlock(Math.floor(idx / blockSize));
   }, [activeEpisode, episodes, blockSize]);
 
+  // Scroll active episode into view whenever it changes
+  useEffect(() => {
+    if (activeRef.current) {
+      activeRef.current.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+  }, [activeEpisode]);
+
   const blockStart = activeBlock * blockSize;
   const blockEps = episodes.slice(blockStart, blockStart + blockSize);
   const firstNum = blockEps[0]?.episode_number;
   const lastNum = blockEps[blockEps.length - 1]?.episode_number;
-  const numCols = Math.ceil(blockEps.length / 2);
 
   if (!episodes.length) return null;
 
   return (
     <div className="animate-fadeIn">
-      {/* Header row */}
+      {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-baseline gap-2">
-          <span className="text-white font-bold text-base">Episode {activeEpisode}</span>
-          <span className="text-gray-500 text-sm">/ {totalEps}</span>
+          <span className="text-white font-semibold text-[15px]">Episodes</span>
+          <span className="text-white/30 text-sm">{totalEps}</span>
         </div>
         {blockCount > 1 && (
           <span className="text-[10px] font-semibold text-red-400 bg-red-600/10 border border-red-600/25 px-2.5 py-1 rounded-full uppercase tracking-wide">
@@ -146,7 +153,7 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
         )}
       </div>
 
-      {/* Block range selector */}
+      {/* Block range pills */}
       {blockCount > 1 && (
         <div className="overflow-x-auto scrollbar-hide mb-3">
           <div className="flex gap-1.5 pb-1" style={{ width: "max-content" }}>
@@ -160,8 +167,8 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
                   onClick={() => setActiveBlock(i)}
                   className={`text-[11px] font-bold px-3 py-1.5 rounded-full whitespace-nowrap transition-all border ${
                     isActive
-                      ? "bg-red-600 border-red-500 text-white shadow-md shadow-red-900/40"
-                      : "bg-transparent border-white/12 text-gray-400 hover:border-white/25 hover:text-white"
+                      ? "bg-red-600 border-red-500 text-white"
+                      : "bg-transparent border-white/12 text-white/40 hover:border-white/25 hover:text-white"
                   }`}
                 >
                   {s}–{e}
@@ -172,34 +179,68 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
         </div>
       )}
 
-      {/* Episode grid */}
-      <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${numCols}, minmax(52px, 1fr))`,
-            gridTemplateRows: "auto auto",
-            gridAutoFlow: "column",
-            gap: "6px",
-          }}
-        >
-          {blockEps.map((ep) => {
-            const active = ep.episode_number === activeEpisode;
-            return (
-              <button
-                key={ep.episode_number}
-                onClick={() => onSelect(ep.episode_number)}
-                className={`h-10 rounded-xl text-sm font-bold transition-all active:scale-95 flex items-center justify-center border ${
-                  active
-                    ? "bg-red-600 border-red-500 text-white shadow-lg shadow-red-900/50"
-                    : "bg-transparent border-white/12 text-gray-400 hover:border-white/30 hover:text-white"
+      {/* Episode list — Netflix/Crunchyroll style */}
+      <div className="max-h-[320px] overflow-y-auto scrollbar-hide -mx-4">
+        {blockEps.map((ep) => {
+          const active = ep.episode_number === activeEpisode;
+          const hasCustomName =
+            ep.name && ep.name !== `Episode ${ep.episode_number}`;
+          return (
+            <button
+              key={ep.episode_number}
+              ref={active ? activeRef : null}
+              onClick={() => onSelect(ep.episode_number)}
+              className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all active:scale-[0.98] ${
+                active
+                  ? "bg-red-600/10"
+                  : "hover:bg-white/4"
+              }`}
+            >
+              {/* Red left accent on active */}
+              <div
+                className={`w-0.5 h-8 rounded-full shrink-0 transition-all ${
+                  active ? "bg-red-500" : "bg-transparent"
+                }`}
+              />
+
+              {/* Episode number badge */}
+              <span
+                className={`text-[13px] font-bold w-7 shrink-0 tabular-nums ${
+                  active ? "text-red-400" : "text-white/35"
                 }`}
               >
                 {String(ep.episode_number).padStart(2, "0")}
-              </button>
-            );
-          })}
-        </div>
+              </span>
+
+              {/* Title */}
+              <span
+                className={`flex-1 text-[14px] truncate leading-snug ${
+                  active
+                    ? "text-white font-semibold"
+                    : "text-white/65 font-normal"
+                }`}
+              >
+                {hasCustomName ? ep.name : `Episode ${ep.episode_number}`}
+              </span>
+
+              {/* Playing indicator */}
+              {active && (
+                <div className="flex items-center gap-[3px] shrink-0 mr-1">
+                  {[0, 1, 2].map((bar) => (
+                    <div
+                      key={bar}
+                      className="w-[3px] rounded-full bg-red-500"
+                      style={{
+                        height: `${10 + bar * 4}px`,
+                        animation: `eq-bounce 0.8s ease-in-out ${bar * 0.15}s infinite alternate`,
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
