@@ -7,7 +7,7 @@ import React, {
   memo,
 } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { MediaPlayer, MediaProvider, Track, useMediaState } from "@vidstack/react";
+import { MediaPlayer, MediaProvider, Track } from "@vidstack/react";
 import {
   DefaultVideoLayout,
   defaultLayoutIcons,
@@ -246,35 +246,6 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
   );
 }
 
-function BufferingOverlay() {
-  const buffering = useMediaState('buffering');
-  const buffered = useMediaState('buffered');
-  const duration = useMediaState('duration');
-
-  if (!buffering) return null;
-
-  let pct = 0;
-  try {
-    if (buffered && buffered.length > 0 && duration > 0) {
-      pct = Math.min(Math.round((buffered.end(buffered.length - 1) / duration) * 100), 100);
-    }
-  } catch (_) {}
-
-  return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
-      <div className="flex flex-col items-center gap-2.5">
-        <div className="relative w-11 h-11">
-          <div className="absolute inset-0 rounded-full border-2 border-white/10" />
-          <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-red-500 animate-spin" />
-        </div>
-        <span className="text-white/60 text-[11px] font-semibold tabular-nums tracking-wider uppercase">
-          {pct > 0 ? `Loading ${pct}%` : 'Loading…'}
-        </span>
-      </div>
-    </div>
-  );
-}
-
 const WatchPage = ({ type }) => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -297,6 +268,7 @@ const WatchPage = ({ type }) => {
   const [streamData, setStreamData] = useState(null);
   const [streamLoading, setStreamLoading] = useState(true);
   const [streamError, setStreamError] = useState(null);
+  const [isBuffering, setIsBuffering] = useState(false);
 
   const [subtitles, setSubtitles] = useState([]);
 
@@ -775,6 +747,9 @@ const WatchPage = ({ type }) => {
               autoPlay
               playsInline
               style={{ width: "100%", height: "100%" }}
+              onWaiting={() => setIsBuffering(true)}
+              onPlaying={() => setIsBuffering(false)}
+              onCanPlay={() => setIsBuffering(false)}
             >
               <MediaProvider />
               {subtitles.map((sub, i) => (
@@ -786,7 +761,19 @@ const WatchPage = ({ type }) => {
                   lang={sub.lan || sub.langCode || ""}
                 />
               ))}
-              <BufferingOverlay />
+              {isBuffering && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
+                  <div className="flex flex-col items-center gap-2.5">
+                    <div className="relative w-11 h-11">
+                      <div className="absolute inset-0 rounded-full border-2 border-white/10" />
+                      <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-red-500 animate-spin" />
+                    </div>
+                    <span className="text-white/60 text-[11px] font-semibold tracking-wider uppercase">
+                      Loading…
+                    </span>
+                  </div>
+                </div>
+              )}
               <DefaultVideoLayout icons={defaultLayoutIcons} />
             </MediaPlayer>
           </div>
@@ -903,7 +890,7 @@ const WatchPage = ({ type }) => {
               {currentSeasonData.episodes.length} ep{currentSeasonData.episodes.length !== 1 ? 's' : ''}
             </span>
           </div>
-          <div className="rounded-xl border border-white/8 overflow-hidden">
+          <div className="rounded-xl border border-white/10 overflow-hidden">
             <EpisodeGrid
               episodes={currentSeasonData.episodes}
               activeEpisode={episode}
