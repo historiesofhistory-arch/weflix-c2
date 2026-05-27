@@ -105,17 +105,8 @@ export async function fetchMbDetail(subjectId, titleHint) {
 }
 
 export async function fetchMbSeasons(subjectId) {
-  if (isClientBffEnabled()) {
-    try {
-      const data = await bffSeasons(subjectId);
-      if (data?.data) {
-        const raw = data.data;
-        if (raw.seasons) return raw;
-        if (Array.isArray(raw)) return { seasons: raw };
-        return raw;
-      }
-    } catch {}
-  }
+  // Always go through the API server — it parses allEp correctly to give the
+  // actual available episodes (not maxEp which inflates counts for partial dubs).
   return fetchWithRetry(`/stream/mb-seasons?subjectId=${encodeURIComponent(subjectId)}`);
 }
 

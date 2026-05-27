@@ -29,6 +29,22 @@ import {
   mbCoverUrl,
 } from "./Fetcher";
 
+const LAN_CODE_NAMES = {
+  ja: "Japanese", en: "English", hi: "Hindi", kn: "Kannada",
+  ml: "Malayalam", ta: "Tamil", te: "Telugu", ko: "Korean",
+  zh: "Chinese", "zh-Hans": "Chinese", "zh-Hant": "Chinese (Traditional)",
+  es: "Spanish", esla: "Spanish (LA)", fr: "French", de: "German",
+  pt: "Portuguese", ar: "Arabic", ru: "Russian", id: "Indonesian",
+  th: "Thai", vi: "Vietnamese", ms: "Malay",
+};
+
+function dubLabel(dub) {
+  if (!dub) return "Audio";
+  const name = LAN_CODE_NAMES[dub.lanCode];
+  if (dub.original) return name || dub.lanName || "Original";
+  return dub.lanName || name || "Audio";
+}
+
 import { getIdFromDetailSlug, getTitleFromDetailSlug } from "./urlUtils";
 import { saveToContinueWatching } from "../../utils/continueWatching";
 import SEO from "./SEO";
@@ -600,7 +616,7 @@ const WatchPage = ({ type }) => {
 
         {streamData && (streamData.hlsUrl || videoSources.length > 0) && (
           <div
-            key={`player-${playerKey.current}-${season}-${episode}-${activeDubId}`}
+            key={`player-${playerKey.current}`}
             className="w-full h-full animate-fadeIn"
           >
             <MediaPlayer
@@ -665,9 +681,7 @@ const WatchPage = ({ type }) => {
                 className="flex items-center gap-2 bg-[#1e1e1e] border border-white/10 hover:border-white/30 text-white text-xs font-medium px-3 py-2 rounded-lg transition-all"
               >
                 <span>
-                  {dubs.find((d) => d.subjectId === activeDubId)?.lanName ||
-                    dubs[0]?.lanName ||
-                    "Original Audio"}
+                  {dubLabel(dubs.find((d) => d.subjectId === activeDubId) || dubs[0])}
                 </span>
                 <div className="flex items-center gap-1 shrink-0">
                   <span className="text-gray-400">{dubs.length}</span>
@@ -763,7 +777,7 @@ const WatchPage = ({ type }) => {
                   : "text-gray-200 hover:bg-white/5"
               }`}
             >
-              <span>{dub.lanName}</span>
+              <span>{dubLabel(dub)}</span>
               {isActive && (
                 <svg className="w-4 h-4 text-red-400 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
