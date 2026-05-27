@@ -509,8 +509,22 @@ const WatchPage = ({ type }) => {
       return [{ src: proxied(src.url), type: "video/mp4" }];
     }
 
-    // Auto mode — pick the lowest quality so it starts fast
-    return [{ src: proxied(sorted[sorted.length - 1].url), type: "video/mp4" }];
+    // Auto mode — pick quality based on actual network speed
+    // sorted[0] = highest (e.g. 1080p), sorted[last] = lowest (e.g. 480p)
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    let targetRes = 720; // safe default
+    if (conn) {
+      const type = conn.effectiveType; // '2g' | '3g' | '4g'
+      const mbps = conn.downlink;      // estimated Mbps (may be 0 if unknown)
+      if (type === "2g" || mbps > 0 && mbps < 1.5)       targetRes = 480;
+      else if (type === "4g" || mbps >= 5)                targetRes = 1080;
+      else                                                 targetRes = 720;
+    }
+    // Find closest quality at or below target, fallback to lowest available
+    const pick =
+      sorted.find((s) => parseInt(s.quality || s.resolutions || s.resolution || 0, 10) <= targetRes) ||
+      sorted[sorted.length - 1];
+    return [{ src: proxied(pick.url), type: "video/mp4" }];
   }, [streamData, selectedQuality]);
 
   // Start time from saved progress (resume where user left off)
@@ -518,6 +532,22 @@ const WatchPage = ({ type }) => {
     if (!streamData) return 0;
     return parseInt(localStorage.getItem(progressKey()) || "0", 10) || 0;
   }, [streamData, progressKey]);
+
+  // Auto quality label — shows which quality Auto picked based on network speed
+  const autoQualityLabel = useMemo(() => {
+    if (!streamData?.qualities?.length) return "";
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    let targetRes = 720;
+    if (conn) {
+      const et = conn.effectiveType;
+      const dl = conn.downlink;
+      if (et === "2g" || (dl > 0 && dl < 1.5))  targetRes = 480;
+      else if (et === "4g" || dl >= 5)            targetRes = 1080;
+    }
+    const allRes = streamData.qualities.map((q) => parseInt(q, 10)).filter(Boolean).sort((a, b) => b - a);
+    const picked = allRes.find((r) => r <= targetRes) || allRes[allRes.length - 1];
+    return picked ? `${picked}p` : "";
+  }, [streamData]);
 
   const handleEpisodeSelect = (epNum) => {
     setStreamLoading(true);
@@ -802,16 +832,20 @@ const WatchPage = ({ type }) => {
             <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest mr-0.5">
               Quality
             </span>
-            {/* Auto = lowest quality, fast load */}
             <button
               onClick={() => setSelectedQuality(null)}
-              className={`text-xs font-bold px-3 py-1.5 rounded-xl border transition-all ${
+              className={`text-xs font-bold px-3 py-1.5 rounded-xl border transition-all flex items-center gap-1.5 ${
                 !selectedQuality
                   ? "bg-red-600 border-red-500 text-white shadow-sm shadow-red-900/50"
                   : "bg-transparent border-white/12 text-white/50 hover:text-white hover:border-white/25"
               }`}
             >
               Auto
+              {autoQualityLabel && (
+                <span className={`text-[10px] font-normal ${!selectedQuality ? "text-red-200" : "text-white/30"}`}>
+                  · {autoQualityLabel}
+                </span>
+              )}
             </button>
             {streamData.qualities.map((q) => (
               <button
