@@ -445,11 +445,15 @@ const WatchPage = ({ type }) => {
   }, [streamData, selectedQuality]);
 
   const handleEpisodeSelect = (epNum) => {
+    setStreamLoading(true);
+    setStreamData(null);
     setEpisode(epNum);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSeasonSelect = (seasonNum) => {
+    setStreamLoading(true);
+    setStreamData(null);
     setSeason(seasonNum);
     setEpisode(1);
   };
@@ -482,9 +486,9 @@ const WatchPage = ({ type }) => {
   }, []);
 
   const handleDubSelect = useCallback(async (dub) => {
-    // 1. Switch the dub immediately — this triggers exactly ONE stream fetch via
-    //    the activeDubId useEffect. We must not call setEpisode/setSeason here
-    //    or they'd trigger extra fetches on top of it.
+    // Stop the old video immediately — no bleed-through of old audio/video
+    setStreamLoading(true);
+    setStreamData(null);
     setActiveDubId(dub.subjectId);
 
     // 2. In parallel, re-fetch the episode list for this dub so the grid
