@@ -515,11 +515,11 @@ const WatchPage = ({ type }) => {
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     let targetRes = 720; // safe default
     if (conn) {
-      const type = conn.effectiveType; // '2g' | '3g' | '4g'
-      const mbps = conn.downlink;      // estimated Mbps (may be 0 if unknown)
-      if (type === "2g" || mbps > 0 && mbps < 1.5)       targetRes = 480;
-      else if (type === "4g" || mbps >= 5)                targetRes = 1080;
-      else                                                 targetRes = 720;
+      const networkType = conn.effectiveType; // '2g' | '3g' | '4g'
+      const mbps = conn.downlink;             // estimated Mbps (may be 0 if unknown)
+      if (networkType === "2g" || mbps > 0 && mbps < 1.5)  targetRes = 480;
+      else if (networkType === "4g" || mbps >= 5)           targetRes = 1080;
+      else                                                   targetRes = 720;
     }
     // Find closest quality at or below target, fallback to lowest available
     const pick =
@@ -553,6 +553,7 @@ const WatchPage = ({ type }) => {
   const handleEpisodeSelect = (epNum) => {
     setStreamLoading(true);
     setStreamData(null);
+    setIsBuffering(false);
     setEpisode(epNum);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -560,6 +561,7 @@ const WatchPage = ({ type }) => {
   const handleSeasonSelect = (seasonNum) => {
     setStreamLoading(true);
     setStreamData(null);
+    setIsBuffering(false);
     setSeason(seasonNum);
     setEpisode(1);
   };
@@ -595,6 +597,7 @@ const WatchPage = ({ type }) => {
     // Stop the old video immediately — no bleed-through of old audio/video
     setStreamLoading(true);
     setStreamData(null);
+    setIsBuffering(false);
     setActiveDubId(dub.subjectId);
 
     // 2. In parallel, re-fetch the episode list for this dub so the grid
@@ -883,14 +886,7 @@ const WatchPage = ({ type }) => {
 
       {type === "tv" && currentSeasonData?.episodes?.length > 0 && (
         <div className="px-4 py-4 border-b border-white/5">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Episodes</span>
-            <div className="flex-1 h-px bg-white/5" />
-            <span className="text-[10px] text-white/25 font-medium tabular-nums">
-              {currentSeasonData.episodes.length} ep{currentSeasonData.episodes.length !== 1 ? 's' : ''}
-            </span>
-          </div>
-          <div className="rounded-xl border border-white/10 overflow-hidden">
+          <div className="rounded-xl border border-white/10 overflow-hidden px-4 pt-4 pb-2">
             <EpisodeGrid
               episodes={currentSeasonData.episodes}
               activeEpisode={episode}
