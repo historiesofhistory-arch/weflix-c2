@@ -401,9 +401,12 @@ const WatchPage = ({ type }) => {
   const videoSources = useMemo(() => {
     if (!streamData?.streams?.length) return [];
 
-    // MP4 signed URLs (hakunaymatata CDN) work directly from the browser —
-    // no CF Worker proxy needed. Proxying every range request adds 100–300 ms
-    // of extra latency per chunk. Use direct CDN URLs for fast, smooth playback.
+    const proxyBase = streamData.proxyBase || "";
+    const proxied = (rawUrl) =>
+      proxyBase
+        ? `${proxyBase}?url=${encodeURIComponent(rawUrl)}`
+        : rawUrl;
+
     const sorted = [...streamData.streams].sort((a, b) => {
       const qa = parseInt(a.quality || a.resolutions || a.resolution || 720, 10);
       const qb = parseInt(b.quality || b.resolutions || b.resolution || 720, 10);
@@ -413,10 +416,10 @@ const WatchPage = ({ type }) => {
     if (selectedQuality) {
       const match = sorted.find((s) => getQualityLabel(s) === selectedQuality);
       const src = match || sorted[0];
-      return [{ src: src.url, type: "video/mp4" }];
+      return [{ src: proxied(src.url), type: "video/mp4" }];
     }
 
-    return [{ src: sorted[0].url, type: "video/mp4" }];
+    return [{ src: proxied(sorted[0].url), type: "video/mp4" }];
   }, [streamData, selectedQuality]);
 
   const handleEpisodeSelect = (epNum) => {

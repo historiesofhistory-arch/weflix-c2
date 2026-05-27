@@ -748,11 +748,20 @@ router.get("/stream/mb-seasons", async (req: Request, res: Response) => {
       return;
     }
     const seasons = (info.seasons || []).map((s) => {
-      const maxEp = s.maxEp || 0;
-      const episodes: { episodeNumber: number; name: string }[] = [];
-      for (let i = 1; i <= maxEp; i++) {
-        episodes.push({ episodeNumber: i, name: `Episode ${i}` });
-      }
+      // allEp is a comma-separated list of the ACTUALLY AVAILABLE episode numbers
+      // for this subject (e.g. a partial dub like Hindi One Piece has 109 specific
+      // episodes, not all 1138). maxEp is just the highest episode number — using
+      // it as the count massively inflates the list for partial dubs.
+      const availableEps = s.allEp
+        ? s.allEp.split(",").map((n: string) => parseInt(n.trim(), 10)).filter((n: number) => !isNaN(n) && n > 0)
+        : [];
+      const episodes: { episodeNumber: number; name: string }[] =
+        availableEps.length > 0
+          ? availableEps.map((n: number) => ({ episodeNumber: n, name: `Episode ${n}` }))
+          : Array.from({ length: s.maxEp || 0 }, (_, i) => ({
+              episodeNumber: i + 1,
+              name: `Episode ${i + 1}`,
+            }));
       return {
         seasonNumber: s.se,
         name: `Season ${s.se}`,
