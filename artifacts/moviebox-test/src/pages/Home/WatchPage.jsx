@@ -238,7 +238,33 @@ const WatchPage = ({ type }) => {
   const [seasonSheetOpen, setSeasonSheetOpen] = useState(false);
 
   const playerKey = useRef(0);
+  const playerRef = useRef(null);
   const { user } = useWatchlist();
+
+  // ── Progress tracking (resume from timestamp) ──────────────────────────
+  const progressKey = useCallback(
+    () =>
+      type === "tv"
+        ? `wf_p_${subjectId}_s${season}e${episode}`
+        : `wf_p_${subjectId}`,
+    [type, subjectId, season, episode]
+  );
+
+  useEffect(() => {
+    const save = () => {
+      const t = playerRef.current?.currentTime;
+      if (t > 5) {
+        try {
+          localStorage.setItem(progressKey(), String(Math.floor(t)));
+        } catch {}
+      }
+    };
+    const timer = setInterval(save, 8000);
+    return () => {
+      save();
+      clearInterval(timer);
+    };
+  }, [progressKey]);
 
   useProgressWhile(detailLoading);
 
@@ -438,12 +464,19 @@ const WatchPage = ({ type }) => {
 
     if (selectedQuality) {
       const match = sorted.find((s) => getQualityLabel(s) === selectedQuality);
-      const src = match || sorted[0];
+      const src = match || sorted[sorted.length - 1];
       return [{ src: proxied(src.url), type: "video/mp4" }];
     }
 
-    return [{ src: proxied(sorted[0].url), type: "video/mp4" }];
+    // Auto mode — pick the lowest quality so it starts fast
+    return [{ src: proxied(sorted[sorted.length - 1].url), type: "video/mp4" }];
   }, [streamData, selectedQuality]);
+
+  // Start time from saved progress (resume where user left off)
+  const startTime = useMemo(() => {
+    if (!streamData) return 0;
+    return parseInt(localStorage.getItem(progressKey()) || "0", 10) || 0;
+  }, [streamData, progressKey]);
 
   const handleEpisodeSelect = (epNum) => {
     setStreamLoading(true);
@@ -631,12 +664,14 @@ const WatchPage = ({ type }) => {
             className="w-full h-full animate-fadeIn"
           >
             <MediaPlayer
+              ref={playerRef}
               title={playerTitle}
               src={
                 streamData.hlsUrl
                   ? { src: streamData.hlsUrl, type: "application/x-mpegurl" }
                   : videoSources
               }
+              startTime={startTime}
               autoPlay
               playsInline
               style={{ width: "100%", height: "100%" }}
@@ -657,20 +692,20 @@ const WatchPage = ({ type }) => {
         )}
       </div>
 
-      <div className="px-4 pt-4 pb-2">
+      <div className="px-4 pt-4 pb-3">
         {detailLoading ? (
           <div className="space-y-2">
-            <div className="h-6 w-48 bg-white/10 rounded animate-pulse" />
-            <div className="h-4 w-32 bg-white/10 rounded animate-pulse" />
+            <div className="h-6 w-52 bg-white/10 rounded-lg animate-pulse" />
+            <div className="h-3.5 w-36 bg-white/6 rounded animate-pulse" />
           </div>
         ) : (
           <>
-            <h1 className="text-white font-bold text-xl leading-snug">
+            <h1 className="text-white font-bold text-[18px] leading-tight tracking-tight">
               {detail?.title}
             </h1>
             {type === "tv" && currentEpisodeName && (
-              <p className="text-gray-400 text-sm mt-0.5">
-                S{String(season).padStart(2, "0")}·E{String(episode).padStart(2, "0")}·{currentEpisodeName}
+              <p className="text-white/40 text-[13px] mt-1 font-medium">
+                Season {season} &nbsp;·&nbsp; Ep {episode} &nbsp;—&nbsp; {currentEpisodeName}
               </p>
             )}
           </>
@@ -678,25 +713,27 @@ const WatchPage = ({ type }) => {
       </div>
 
       <div className="px-4 py-4 border-b border-white/5">
-        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-3">
-          Resources
-        </span>
+        <div className="flex items-center gap-3 mb-3">
+          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Playback</span>
+          <div className="flex-1 h-px bg-white/5" />
+        </div>
 
+        {/* Dub + Season selectors */}
         <div className="flex flex-wrap gap-2 mb-3">
           {streamLoading && !dubs.length ? (
-            <div className="h-8 w-28 bg-white/10 rounded-lg animate-pulse" />
+            <div className="h-8 w-28 bg-white/8 rounded-xl animate-pulse" />
           ) : (
             dubs.length > 0 && (
               <button
                 onClick={() => setDubSheetOpen(true)}
-                className="flex items-center gap-2 bg-[#1e1e1e] border border-white/10 hover:border-white/30 text-white text-xs font-medium px-3 py-2 rounded-lg transition-all"
+                className="flex items-center gap-2 bg-white/5 border border-white/10 hover:border-white/25 hover:bg-white/8 text-white text-xs font-medium px-3 py-2 rounded-xl transition-all"
               >
-                <span>
+                <span className="text-white/90">
                   {dubLabel(dubs.find((d) => d.subjectId === activeDubId) || dubs[0])}
                 </span>
                 <div className="flex items-center gap-1 shrink-0">
-                  <span className="text-gray-400">{dubs.length}</span>
-                  <FaChevronDown className="text-[10px] text-gray-400" />
+                  <span className="text-white/40 text-[10px]">{dubs.length}</span>
+                  <FaChevronDown className="text-[9px] text-white/40" />
                 </div>
               </button>
             )
@@ -705,42 +742,49 @@ const WatchPage = ({ type }) => {
           {type === "tv" && seasons.length > 0 && (
             <button
               onClick={() => setSeasonSheetOpen(true)}
-              className="flex items-center gap-2 bg-[#1e1e1e] border border-white/10 hover:border-white/30 text-white text-xs font-medium px-3 py-2 rounded-lg transition-all"
+              className="flex items-center gap-2 bg-white/5 border border-white/10 hover:border-white/25 hover:bg-white/8 text-white text-xs font-medium px-3 py-2 rounded-xl transition-all"
             >
-              <span>Season {String(season).padStart(2, "0")}</span>
+              <span className="text-white/90">Season {String(season).padStart(2, "0")}</span>
               <div className="flex items-center gap-1 shrink-0">
-                <span className="text-gray-400">
-                  {seasons.find((s) => s.season_number === season)?.episode_count ?? 0}
+                <span className="text-white/40 text-[10px]">
+                  {seasons.find((s) => s.season_number === season)?.episode_count ?? 0}ep
                 </span>
-                <FaChevronDown className="text-[10px] text-gray-400" />
+                <FaChevronDown className="text-[9px] text-white/40" />
               </div>
             </button>
           )}
         </div>
 
+        {/* Quality selector */}
         {streamData?.qualities?.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mr-1">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest mr-0.5">
               Quality
             </span>
-            {streamData.qualities.map((q) => {
-              const isActive =
-                selectedQuality === q ||
-                (!selectedQuality && q === streamData.qualities[0]);
-              return (
-                <button
-                  key={q}
-                  onClick={() => setSelectedQuality(q)}
-                  className={`text-xs font-bold px-3 py-1 rounded-lg transition-all ${
-                    isActive
-                      ? "bg-red-600 text-white"
-                      : "bg-[#1e1e1e] text-gray-400 hover:text-white border border-white/10"
-                  }`}
-                >
-                  {q}
-                </button>
-              );
-            })}
+            {/* Auto = lowest quality, fast load */}
+            <button
+              onClick={() => setSelectedQuality(null)}
+              className={`text-xs font-bold px-3 py-1.5 rounded-xl border transition-all ${
+                !selectedQuality
+                  ? "bg-red-600 border-red-500 text-white shadow-sm shadow-red-900/50"
+                  : "bg-transparent border-white/12 text-white/50 hover:text-white hover:border-white/25"
+              }`}
+            >
+              Auto
+            </button>
+            {streamData.qualities.map((q) => (
+              <button
+                key={q}
+                onClick={() => setSelectedQuality(q)}
+                className={`text-xs font-bold px-3 py-1.5 rounded-xl border transition-all ${
+                  selectedQuality === q
+                    ? "bg-red-600 border-red-500 text-white shadow-sm shadow-red-900/50"
+                    : "bg-transparent border-white/12 text-white/50 hover:text-white hover:border-white/25"
+                }`}
+              >
+                {q}
+              </button>
+            ))}
           </div>
         )}
       </div>
@@ -757,10 +801,11 @@ const WatchPage = ({ type }) => {
 
       {overview && (
         <div className="px-4 py-4">
-          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-2">
-            Synopsis
-          </span>
-          <p className="text-gray-400 text-sm leading-relaxed">{overview}</p>
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">Synopsis</span>
+            <div className="flex-1 h-px bg-white/5" />
+          </div>
+          <p className="text-white/50 text-[13px] leading-relaxed">{overview}</p>
         </div>
       )}
 
