@@ -77,7 +77,7 @@ function ParentComponent() {
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
       />
 
-      <ScrollToTopButton showAfter={300} />
+      {!isWatchPage && <ScrollToTopButton showAfter={300} />}
 
       {/* Page content. Note: AnimatePresence + motion.div was previously
           wrapped here for cross-route fade transitions, but it interfered
