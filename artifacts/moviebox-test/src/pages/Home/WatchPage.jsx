@@ -7,7 +7,7 @@ import React, {
   memo,
 } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { MediaPlayer, MediaProvider, Track } from "@vidstack/react";
+import { MediaPlayer, MediaProvider, Track, useMediaState } from "@vidstack/react";
 import {
   DefaultVideoLayout,
   defaultLayoutIcons,
@@ -241,6 +241,35 @@ function EpisodeGrid({ episodes, activeEpisode, onSelect, blockSize = BLOCK_SIZE
             </button>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+function BufferingOverlay() {
+  const buffering = useMediaState('buffering');
+  const buffered = useMediaState('buffered');
+  const duration = useMediaState('duration');
+
+  if (!buffering) return null;
+
+  let pct = 0;
+  try {
+    if (buffered && buffered.length > 0 && duration > 0) {
+      pct = Math.min(Math.round((buffered.end(buffered.length - 1) / duration) * 100), 100);
+    }
+  } catch (_) {}
+
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none">
+      <div className="flex flex-col items-center gap-2.5">
+        <div className="relative w-11 h-11">
+          <div className="absolute inset-0 rounded-full border-2 border-white/10" />
+          <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-red-500 animate-spin" />
+        </div>
+        <span className="text-white/60 text-[11px] font-semibold tabular-nums tracking-wider uppercase">
+          {pct > 0 ? `Loading ${pct}%` : 'Loading…'}
+        </span>
       </div>
     </div>
   );
@@ -757,6 +786,7 @@ const WatchPage = ({ type }) => {
                   lang={sub.lan || sub.langCode || ""}
                 />
               ))}
+              <BufferingOverlay />
               <DefaultVideoLayout icons={defaultLayoutIcons} />
             </MediaPlayer>
           </div>
@@ -866,11 +896,20 @@ const WatchPage = ({ type }) => {
 
       {type === "tv" && currentSeasonData?.episodes?.length > 0 && (
         <div className="px-4 py-4 border-b border-white/5">
-          <EpisodeGrid
-            episodes={currentSeasonData.episodes}
-            activeEpisode={episode}
-            onSelect={handleEpisodeSelect}
-          />
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Episodes</span>
+            <div className="flex-1 h-px bg-white/5" />
+            <span className="text-[10px] text-white/25 font-medium tabular-nums">
+              {currentSeasonData.episodes.length} ep{currentSeasonData.episodes.length !== 1 ? 's' : ''}
+            </span>
+          </div>
+          <div className="rounded-xl border border-white/8 overflow-hidden">
+            <EpisodeGrid
+              episodes={currentSeasonData.episodes}
+              activeEpisode={episode}
+              onSelect={handleEpisodeSelect}
+            />
+          </div>
         </div>
       )}
 
