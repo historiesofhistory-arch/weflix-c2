@@ -336,6 +336,12 @@ const WatchPage = ({ type }) => {
           const newDubs = data.dubs || [];
           if (newDubs.length > 0 && !dubSubjectId) {
             setDubs(newDubs);
+            // If the page URL already points to a specific dub (e.g. user opened
+            // "JJK Hindi" directly), find which dub matches this page's subjectId
+            // and mark it active — otherwise the label defaults to dubs[0] (Original)
+            // even though the audio is actually the matched dub.
+            const selfDub = newDubs.find((d) => d.subjectId === subjectId);
+            if (selfDub) setActiveDubId(selfDub.subjectId);
           }
           const qualities = [
             ...new Set(
